@@ -1,0 +1,9 @@
+DATABASE_URL="postgresql://neondb_owner:npg_RdHFi5OI1KBf@ep-delicate-salad-ao3by27k-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
+
+SESSION_SECRET="replace-with-long-random-secret"
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="admin"
+
+CLOUDINARY_CLOUD_NAME="dx4zaeff5"
+CLOUDINARY_API_KEY="853719545439948"
+CLOUDINARY_API_SECRET="foKE0z_x_A5sL62M-HLHNVNUHmk"

@@ -1,3 +1,5 @@
 export const isAdmin = (username: string, password: string) => {
-  return username === "admin" && password === "admin";
+  const adminUsername = process.env.ADMIN_USERNAME || "admin";
+  const adminPassword = process.env.ADMIN_PASSWORD || "admin";
+  return username === adminUsername && password === adminPassword;
 };

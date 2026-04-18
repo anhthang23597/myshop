@@ -10,7 +10,10 @@ export async function POST(req: Request) {
   const { username, password } = await req.json();
 
   if (!isAdmin(username, password)) {
-    return Response.json({ ok: false }, { status: 401 });
+    return Response.json(
+      { ok: false, error: "Sai tài khoản hoặc mật khẩu." },
+      { status: 401 }
+    );
   }
 
   const res = NextResponse.json({ ok: true });

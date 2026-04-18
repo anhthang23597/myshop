@@ -7,9 +7,11 @@ export default function Login() {
   const [username, setU] = useState("");
   const [password, setP] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const login = async () => {
+    setError("");
     setLoading(true);
     const res = await fetch("/api/login", {
       method: "POST",
@@ -22,7 +24,8 @@ export default function Login() {
     if (res.ok) {
       router.push("/");
     } else {
-      alert("Sai tài khoản");
+      const data = await res.json().catch(() => null);
+      setError(data?.error || "Đăng nhập thất bại.");
     }
     setLoading(false);
   };
@@ -31,6 +34,9 @@ export default function Login() {
     <div className="min-h-screen bg-black text-white flex items-center justify-center">
       <div className="bg-zinc-900 p-6 rounded-2xl w-80">
         <h1 className="text-xl font-bold mb-4">Login</h1>
+        <p className="mb-4 text-xs text-zinc-400">
+          Mặc định: admin / admin (nếu chưa set env riêng)
+        </p>
 
         <input
           className="w-full p-2 mb-2 bg-black border border-zinc-700 rounded"
@@ -52,6 +58,7 @@ export default function Login() {
         >
           {loading ? "Đang đăng nhập..." : "Login"}
         </button>
+        {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
       </div>
     </div>
   );
