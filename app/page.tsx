@@ -62,7 +62,7 @@ export default function Home() {
               ✨ xo may studio
             </p>
             <h1 className="bg-gradient-to-r from-white via-purple-100 to-blue-200 bg-clip-text text-2xl font-black tracking-tight text-transparent md:text-3xl transition-all duration-300 group-hover:scale-105">
-              xo may shop
+              xo may gallery
             </h1>
           </div>
 
@@ -79,7 +79,7 @@ export default function Home() {
                   href="/admin"
                   className="rounded-xl bg-gradient-to-r from-emerald-400 to-green-400 px-4 py-2 text-sm font-semibold text-black shadow-[0_8px_20px_rgba(74,222,128,0.35)] transition-all duration-300 hover:shadow-[0_12px_30px_rgba(74,222,128,0.45)] hover:scale-105"
                 >
-                  ⚡ Cập nhật sản phẩm
+                  ⚡ Cập nhật
                 </Link>
                 <button
                   onClick={logout}
@@ -104,16 +104,16 @@ export default function Home() {
         <section className="mb-10 grid gap-5 rounded-3xl border border-white/10 bg-gradient-to-br from-zinc-900/90 via-zinc-900/80 to-zinc-950/80 p-6 shadow-2xl shadow-black/45 backdrop-blur-xl md:grid-cols-[1.35fr_0.65fr] md:p-8">
           <div className="space-y-4">
             <h2 className="max-w-xl text-3xl font-extrabold leading-tight tracking-tight bg-gradient-to-r from-white via-purple-100 to-blue-200 bg-clip-text text-transparent md:text-5xl">
-              Bộ sưu tập mới
+              Bộ sưu tập nghệ thuật
             </h2>
             <p className="max-w-lg text-sm text-zinc-300 md:text-base leading-relaxed">
-              Thiết kế thời thượng, giá tốt
+              Thiết kế độc đáo, phong cách riêng
             </p>
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 backdrop-blur-sm">
             <p className="text-xs uppercase tracking-[0.2em] text-zinc-400 font-medium">
-              📦 Sản phẩm
+              🎨 Tác phẩm
             </p>
             <p className="mt-3 text-3xl font-black bg-gradient-to-r from-emerald-300 to-green-300 bg-clip-text text-transparent">{productCount}</p>
           </div>
@@ -123,10 +123,10 @@ export default function Home() {
           <div className="mb-6 flex items-end justify-between gap-3">
             <div>
               <h3 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent md:text-3xl">
-                ✨ Sản phẩm nổi bật
+                ✨ Tác phẩm nổi bật
               </h3>
               <p className="mt-1 text-sm text-zinc-400">
-                Tuyển chọn dành riêng cho bạn
+                Tuyển chọn nghệ thuật độc đáo
               </p>
             </div>
             <span className="rounded-full border border-white/15 bg-gradient-to-r from-white/5 to-white/[0.02] px-3 py-1 text-xs text-zinc-300 backdrop-blur-sm">
@@ -157,10 +157,10 @@ export default function Home() {
                 <span className="text-2xl">📦</span>
               </div>
               <p className="text-lg font-semibold text-zinc-100">
-                Chưa có sản phẩm nào
+                Chưa có tác phẩm nào
               </p>
               <p className="mt-2 text-sm text-zinc-400">
-                Hãy quay lại sau, shop đang cập nhật bộ sưu tập mới.
+                Hãy quay lại sau, gallery đang cập nhật bộ sưu tập mới.
               </p>
             </div>
           )}
@@ -193,11 +193,8 @@ export default function Home() {
                         {p.name}
                       </h4>
                       <div className="flex items-center justify-between">
-                        <p className="text-lg font-black bg-gradient-to-r from-emerald-300 to-green-300 bg-clip-text text-transparent">
-                          ${p.price}
-                        </p>
                         <span className="rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-zinc-300 group-hover:border-white/20 group-hover:bg-white/10 transition-all">
-                          View
+                          Xem chi tiết
                         </span>
                       </div>
                     </div>
@@ -216,7 +213,7 @@ export default function Home() {
             <span className="text-zinc-300 font-medium">Xo May</span>
             <span className="text-zinc-500">All rights reserved.</span>
           </div>
-          <p className="text-zinc-500">Modern shopping experience</p>
+          <p className="text-zinc-500">Art gallery experience</p>
         </div>
       </footer>
     </div>

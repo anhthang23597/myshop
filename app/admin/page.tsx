@@ -24,9 +24,15 @@ export default function AdminPage() {
     message: string;
   } | null>(null);
 
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [files, setFiles] = useState<File[]>([]);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  
+  const [createName, setCreateName] = useState("");
+  const [createFiles, setCreateFiles] = useState<File[]>([]);
+  
+  const [updateName, setUpdateName] = useState("");
+  const [updateFiles, setUpdateFiles] = useState<File[]>([]);
 
   const router = useRouter();
 
@@ -76,16 +82,16 @@ export default function AdminPage() {
   }
 
   // UPLOAD MULTI IMAGES
-  const uploadImages = async (): Promise<
+  const uploadImages = async (filesToUpload: File[]): Promise<
     { url: string; publicId?: string | null }[]
   > => {
     const uploadedImages: { url: string; publicId?: string | null }[] = [];
 
-    if (!files.length) return uploadedImages;
+    if (!filesToUpload.length) return uploadedImages;
 
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < filesToUpload.length; i++) {
       const formData = new FormData();
-      formData.append("file", files[i]);
+      formData.append("file", filesToUpload[i]);
 
       const res = await fetch("/api/upload", {
         method: "POST",
@@ -107,11 +113,11 @@ export default function AdminPage() {
 
   // CREATE PRODUCT
   const createProduct = async () => {
-    if (!name || !price) return;
+    if (!createName) return;
 
     setLoading(true);
 
-    const uploadedImages = await uploadImages();
+    const uploadedImages = await uploadImages(createFiles);
 
     const res = await fetch("/api/products", {
       method: "POST",
@@ -119,30 +125,30 @@ export default function AdminPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name,
-        price: Number(price),
+        name: createName,
+        price: 0,
         images: uploadedImages,
       }),
     });
 
     if (!res.ok) {
-      showToast("error", "Tạo sản phẩm thất bại.");
+      showToast("error", "Tạo tác phẩm thất bại.");
       setLoading(false);
       return;
     }
 
-    setName("");
-    setPrice("");
-    setFiles([]);
+    setCreateName("");
+    setCreateFiles([]);
+    setShowCreateForm(false);
 
     setLoading(false);
     fetchProducts();
-    showToast("success", "Đã tạo sản phẩm.");
+    showToast("success", "Đã tạo tác phẩm.");
   };
 
   // DELETE
   const deleteProduct = async (id: string) => {
-    const ok = window.confirm("Bạn chắc chắn muốn xóa sản phẩm này?");
+    const ok = window.confirm("Bạn chắc chắn muốn xóa tác phẩm này?");
     if (!ok) return;
 
     const res = await fetch(`/api/products/${id}`, {
@@ -151,14 +157,14 @@ export default function AdminPage() {
 
     const data = await res.json().catch(() => null);
     if (!res.ok) {
-      showToast("error", data?.error || "Xóa sản phẩm thất bại.");
+      showToast("error", data?.error || "Xóa tác phẩm thất bại.");
       return;
     }
 
     if (data?.cloudinaryWarning) {
-      showToast("warning", `Đã xóa sản phẩm. ${data.cloudinaryWarning}`);
+      showToast("warning", `Đã xóa tác phẩm. ${data.cloudinaryWarning}`);
     } else {
-      showToast("success", "Đã xóa sản phẩm.");
+      showToast("success", "Đã xóa tác phẩm.");
     }
 
     fetchProducts();
@@ -166,10 +172,14 @@ export default function AdminPage() {
 
   // UPDATE
   const updateProduct = async (id: string) => {
-    const name = prompt("Tên mới?");
-    const price = prompt("Giá mới?");
+    if (!updateName) {
+      showToast("error", "Vui lòng nhập tên tác phẩm.");
+      return;
+    }
 
-    if (!name || !price) return;
+    setLoading(true);
+
+    const uploadedImages = await uploadImages(updateFiles);
 
     const res = await fetch(`/api/products/${id}`, {
       method: "PUT",
@@ -177,18 +187,46 @@ export default function AdminPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name,
-        price: Number(price),
+        name: updateName,
+        price: 0,
+        images: uploadedImages,
       }),
     });
 
     if (!res.ok) {
-      showToast("error", "Cập nhật sản phẩm thất bại.");
+      showToast("error", "Cập nhật tác phẩm thất bại.");
+      setLoading(false);
       return;
     }
 
+    setUpdateName("");
+    setUpdateFiles([]);
+    setShowUpdateForm(false);
+    setEditingProduct(null);
+
+    setLoading(false);
     fetchProducts();
-    showToast("success", "Đã cập nhật sản phẩm.");
+    showToast("success", "Đã cập nhật tác phẩm.");
+  };
+
+  // OPEN UPDATE FORM
+  const openUpdateForm = (product: Product) => {
+    setEditingProduct(product);
+    setUpdateName(product.name);
+    setUpdateFiles([]);
+    setShowUpdateForm(true);
+    setShowCreateForm(false);
+  };
+
+  // CLOSE FORMS
+  const closeForms = () => {
+    setShowCreateForm(false);
+    setShowUpdateForm(false);
+    setEditingProduct(null);
+    setCreateName("");
+    setCreateFiles([]);
+    setUpdateName("");
+    setUpdateFiles([]);
   };
 
   const logout = async () => {
@@ -212,7 +250,7 @@ export default function AdminPage() {
             </div>
             <div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">Admin Dashboard</h1>
-              <p className="text-xs text-zinc-500">Quản lý sản phẩm</p>
+              <p className="text-xs text-zinc-500">Quản lý tác phẩm</p>
             </div>
           </div>
 
@@ -225,7 +263,7 @@ export default function AdminPage() {
             </button>
             <button
               onClick={logout}
-              className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 px-4 py-2 rounded-lg text-white transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-lg"
+              className="rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-100 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:scale-105"
             >
               🚪 Đăng xuất
             </button>
@@ -253,101 +291,213 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* CREATE FORM */}
-        <div className="bg-gradient-to-br from-zinc-900/90 to-zinc-950/90 border border-zinc-800 p-6 rounded-2xl space-y-4 backdrop-blur-xl shadow-xl">
-          <div className="flex items-center gap-3 pb-2 border-b border-zinc-800">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center">
-              <span className="text-white font-bold">➕</span>
-            </div>
-            <h2 className="text-lg font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">Thêm sản phẩm mới</h2>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Tên sản phẩm</label>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Nhập tên sản phẩm..."
-              className="w-full p-3 rounded-lg bg-zinc-800/50 border border-zinc-700 focus:border-emerald-500 focus:bg-zinc-800 transition-all duration-300 placeholder-zinc-500"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Giá sản phẩm</label>
-            <input
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              placeholder="Nhập giá..."
-              type="number"
-              className="w-full p-3 rounded-lg bg-zinc-800/50 border border-zinc-700 focus:border-emerald-500 focus:bg-zinc-800 transition-all duration-300 placeholder-zinc-500"
-            />
-          </div>
-
-          {/* UPLOAD BUTTON (CUSTOM UI) */}
-          <div className="flex flex-col gap-3">
-            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Hình ảnh sản phẩm</label>
-
-            <input
-              id="fileUpload"
-              type="file"
-              multiple
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => {
-                const selected = e.target.files;
-                if (!selected) return;
-                setFiles(Array.from(selected));
-              }}
-            />
-
-            <label
-              htmlFor="fileUpload"
-              className="cursor-pointer inline-block bg-gradient-to-r from-zinc-800 to-zinc-700 hover:from-zinc-700 hover:to-zinc-600 border border-zinc-600 px-4 py-3 rounded-lg text-center transition-all duration-300 hover:scale-105 hover:shadow-lg"
-            >
-              📁 Chọn ảnh sản phẩm (có thể chọn nhiều)
-            </label>
-
-            <p className="text-xs text-zinc-500 flex items-center gap-2">
-              <span>💡</span>
-              <span>Bạn có thể chọn nhiều ảnh cùng lúc để hiển thị sản phẩm tốt hơn</span>
-            </p>
-          </div>
-
-          {/* PREVIEW */}
-          {files.length > 0 && (
-            <div className="space-y-2">
-              <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Xem trước ({files.length} ảnh)</p>
-              <div className="grid grid-cols-4 gap-2">
-                {files.map((file, i) => (
-                  <div key={i} className="relative group">
-                    <img
-                      src={URL.createObjectURL(file)}
-                      className="h-20 w-full object-cover rounded-lg border border-zinc-700 transition-all duration-300 group-hover:border-emerald-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
+        {/* ADD PRODUCT BUTTON */}
+        {!showCreateForm && !showUpdateForm && (
           <button
-            onClick={createProduct}
-            disabled={loading}
-            className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-black px-4 py-3 rounded-lg w-full font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+            onClick={() => setShowCreateForm(true)}
+            className="w-full bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2"
           >
-            {loading ? (
-              <>
-                <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
-                Đang xử lý...
-              </>
-            ) : (
-              <>
-                ✨ Tạo sản phẩm
-              </>
-            )}
+            ✨ Thêm tác phẩm mới
           </button>
-        </div>
+        )}
+
+        {/* CREATE FORM */}
+        {showCreateForm && (
+          <div className="bg-gradient-to-br from-zinc-900/90 to-zinc-950/90 border border-zinc-800 p-6 rounded-2xl space-y-4 backdrop-blur-xl shadow-xl">
+            <div className="flex items-center justify-between pb-2 border-b border-zinc-800">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center">
+                  <span className="text-white font-bold">✨</span>
+                </div>
+                <h2 className="text-lg font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">Thêm tác phẩm mới</h2>
+              </div>
+              <button
+                onClick={closeForms}
+                className="text-zinc-400 hover:text-white transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Tên tác phẩm</label>
+              <input
+                value={createName}
+                onChange={(e) => setCreateName(e.target.value)}
+                placeholder="Nhập tên tác phẩm..."
+                className="w-full p-3 rounded-lg bg-zinc-800/50 border border-zinc-700 focus:border-emerald-500 focus:bg-zinc-800 transition-all duration-300 placeholder-zinc-500"
+              />
+            </div>
+
+            {/* UPLOAD BUTTON (CUSTOM UI) */}
+            <div className="flex flex-col gap-3">
+              <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Hình ảnh tác phẩm</label>
+
+              <input
+                id="fileUploadCreate"
+                type="file"
+                multiple
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const selected = e.target.files;
+                  if (!selected) return;
+                  setCreateFiles(Array.from(selected));
+                }}
+              />
+
+              <label
+                htmlFor="fileUploadCreate"
+                className="cursor-pointer inline-block bg-gradient-to-r from-zinc-800 to-zinc-700 hover:from-zinc-700 hover:to-zinc-600 border border-zinc-600 px-4 py-3 rounded-lg text-center transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              >
+                📁 Chọn ảnh tác phẩm (có thể chọn nhiều)
+              </label>
+
+              <p className="text-xs text-zinc-500 flex items-center gap-2">
+                <span>💡</span>
+                <span>Bạn có thể chọn nhiều ảnh cùng lúc để hiển thị tác phẩm tốt hơn</span>
+              </p>
+            </div>
+
+            {/* PREVIEW */}
+            {createFiles.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Xem trước ({createFiles.length} ảnh)</p>
+                <div className="grid grid-cols-4 gap-2">
+                  {createFiles.map((file: File, i: number) => (
+                    <div key={i} className="relative group">
+                      <img
+                        src={URL.createObjectURL(file)}
+                        className="h-20 w-full object-cover rounded-lg border border-zinc-700 transition-all duration-300 group-hover:border-emerald-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <button
+              onClick={createProduct}
+              disabled={loading}
+              className="bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white px-4 py-3 rounded-lg w-full font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+                  Đang xử lý...
+                </>
+              ) : (
+                <>
+                  ✨ Tạo
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
+        {/* UPDATE FORM */}
+        {showUpdateForm && editingProduct && (
+          <div className="bg-gradient-to-br from-zinc-900/90 to-zinc-950/90 border border-zinc-800 p-6 rounded-2xl space-y-4 backdrop-blur-xl shadow-xl">
+            <div className="flex items-center justify-between pb-2 border-b border-zinc-800">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-yellow-500 to-amber-500 flex items-center justify-center">
+                  <span className="text-white font-bold">📝</span>
+                </div>
+                <h2 className="text-lg font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">Cập nhật</h2>
+              </div>
+              <button
+                onClick={closeForms}
+                className="text-zinc-400 hover:text-white transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Tên tác phẩm</label>
+              <input
+                value={updateName}
+                onChange={(e) => setUpdateName(e.target.value)}
+                placeholder="Nhập tên tác phẩm..."
+                className="w-full p-3 rounded-lg bg-zinc-800/50 border border-zinc-700 focus:border-emerald-500 focus:bg-zinc-800 transition-all duration-300 placeholder-zinc-500"
+              />
+            </div>
+
+            {/* UPLOAD BUTTON (CUSTOM UI) */}
+            <div className="flex flex-col gap-3">
+              <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Thêm ảnh mới (tùy chọn)</label>
+
+              <input
+                id="fileUploadUpdate"
+                type="file"
+                multiple
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const selected = e.target.files;
+                  if (!selected) return;
+                  setUpdateFiles(Array.from(selected));
+                }}
+              />
+
+              <label
+                htmlFor="fileUploadUpdate"
+                className="cursor-pointer inline-block bg-gradient-to-r from-zinc-800 to-zinc-700 hover:from-zinc-700 hover:to-zinc-600 border border-zinc-600 px-4 py-3 rounded-lg text-center transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              >
+                📁 Thêm ảnh tác phẩm
+              </label>
+
+              <p className="text-xs text-zinc-500 flex items-center gap-2">
+                <span>💡</span>
+                <span>Các ảnh hiện tại sẽ được giữ lại</span>
+              </p>
+            </div>
+
+            {/* PREVIEW */}
+            {updateFiles.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Ảnh mới ({updateFiles.length} ảnh)</p>
+                <div className="grid grid-cols-4 gap-2">
+                  {updateFiles.map((file: File, i: number) => (
+                    <div key={i} className="relative group">
+                      <img
+                        src={URL.createObjectURL(file)}
+                        className="h-20 w-full object-cover rounded-lg border border-zinc-700 transition-all duration-300 group-hover:border-emerald-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => updateProduct(editingProduct.id)}
+                disabled={loading}
+                className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+                    Đang xử lý...
+                  </>
+                ) : (
+                  <>
+                    ✨ Cập nhật
+                  </>
+                )}
+              </button>
+              <button
+                onClick={closeForms}
+                className="px-4 py-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-all duration-300"
+              >
+                Hủy
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* LIST */}
         <div className="space-y-4">
@@ -355,7 +505,7 @@ export default function AdminPage() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
               <span className="text-white font-bold">📦</span>
             </div>
-            <h2 className="text-lg font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">Danh sách sản phẩm ({products.length})</h2>
+            <h2 className="text-lg font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">Danh sách tác phẩm ({products.length})</h2>
           </div>
 
           <div className="grid gap-3">
@@ -381,24 +531,23 @@ export default function AdminPage() {
 
                   <div className="space-y-1">
                     <p className="font-semibold text-white">{p.name}</p>
-                    <p className="text-emerald-400 font-bold">${p.price}</p>
                     <p className="text-xs text-zinc-500">ID: {p.id}</p>
                   </div>
                 </div>
 
                 <div className="flex gap-2">
                   <button
-                    onClick={() => updateProduct(p.id)}
-                    className="bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 px-3 py-1 rounded-lg text-black font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-1"
+                    onClick={() => openUpdateForm(p)}
+                    className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-3 py-1 rounded-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-1"
                   >
-                    ✏️ Sửa
+                    📝 Chỉnh sửa
                   </button>
 
                   <button
                     onClick={() => deleteProduct(p.id)}
-                    className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 px-3 py-1 rounded-lg text-white font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-1"
+                    className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 px-3 py-1 rounded-lg text-white font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-1"
                   >
-                    🗑️ Xoá
+                    🗑 Xoá
                   </button>
                 </div>
               </div>

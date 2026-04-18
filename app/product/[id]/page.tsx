@@ -52,7 +52,7 @@ export default async function ProductDetailPage({
             href="/"
             className="inline-flex items-center gap-2 text-sm bg-zinc-900/80 hover:bg-zinc-800/80 border border-zinc-800 px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg backdrop-blur-sm"
           >
-            🏠 Quay lại shop
+            🏠 Quay lại gallery
           </a>
 
           <div className="flex items-center gap-2">
@@ -78,16 +78,9 @@ export default async function ProductDetailPage({
                   {product.name}
                 </h1>
 
-                <div className="border-t border-zinc-800 pt-4">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-emerald-400 text-3xl md:text-4xl font-bold">
-                      ${product.price}
-                    </span>
-                  </div>
-                </div>
 
                 <div className="text-sm text-zinc-300 leading-relaxed">
-                  <p>Sản phẩm chất lượng cao, thiết kế hiện đại.</p>
+                  <p>Tác phẩm nghệ thuật độc đáo, thể hiện phong cách riêng và tinh tế.</p>
                 </div>
               </div>
             </div>
