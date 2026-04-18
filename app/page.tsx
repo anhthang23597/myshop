@@ -103,50 +103,19 @@ export default function Home() {
       <main className="relative mx-auto w-full max-w-6xl px-4 pb-16 pt-6 md:px-6 md:pt-10">
         <section className="mb-10 grid gap-5 rounded-3xl border border-white/10 bg-gradient-to-br from-zinc-900/90 via-zinc-900/80 to-zinc-950/80 p-6 shadow-2xl shadow-black/45 backdrop-blur-xl md:grid-cols-[1.35fr_0.65fr] md:p-8">
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-400"></span>
-              </span>
-              <p className="inline-flex rounded-full border border-zinc-700/70 bg-zinc-800/65 px-3 py-1 text-xs uppercase tracking-[0.22em] text-zinc-300 font-medium">
-                ✨ New Collection
-              </p>
-            </div>
             <h2 className="max-w-xl text-3xl font-extrabold leading-tight tracking-tight bg-gradient-to-r from-white via-purple-100 to-blue-200 bg-clip-text text-transparent md:text-5xl">
-              Bộ sưu tập mới cho phong cách mỗi ngày
+              Bộ sưu tập mới
             </h2>
-            <p className="mt-4 max-w-lg text-sm text-zinc-300 md:text-base leading-relaxed">
-              Chọn sản phẩm yêu thích với thiết kế thời thượng, giá tốt và trải
-              nghiệm mua sắm mượt mà ngay trên trang chủ mới.
+            <p className="max-w-lg text-sm text-zinc-300 md:text-base leading-relaxed">
+              Thiết kế thời thượng, giá tốt
             </p>
-            <div className="flex gap-3 pt-2">
-              <div className="px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-400/30 text-xs font-medium text-purple-200">
-                Premium Quality
-              </div>
-              <div className="px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500/20 to-green-500/20 border border-emerald-400/30 text-xs font-medium text-emerald-200">
-                Best Price
-              </div>
-            </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-3">
-            <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 backdrop-blur-sm hover:from-white/[0.12] hover:to-white/[0.04] transition-all duration-300">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-xs uppercase tracking-[0.2em] text-zinc-400 font-medium">
-                  📦 Sản phẩm
-                </p>
-                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-              </div>
-              <p className="mt-3 text-3xl font-black bg-gradient-to-r from-emerald-300 to-green-300 bg-clip-text text-transparent">{productCount}</p>
-              <p className="mt-1 text-sm text-zinc-300">Sẵn sàng để đặt mua</p>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-purple-500/10 to-blue-500/10 p-4 backdrop-blur-sm hover:from-purple-500/15 hover:to-blue-500/15 transition-all duration-300">
-              <p className="text-xs uppercase tracking-[0.2em] text-purple-300 font-medium">
-                🔥 Hot Trend
-              </p>
-              <p className="mt-3 text-2xl font-bold text-purple-200">New</p>
-              <p className="mt-1 text-sm text-zinc-400">Bộ sưu tập mới</p>
-            </div>
+          <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 backdrop-blur-sm">
+            <p className="text-xs uppercase tracking-[0.2em] text-zinc-400 font-medium">
+              📦 Sản phẩm
+            </p>
+            <p className="mt-3 text-3xl font-black bg-gradient-to-r from-emerald-300 to-green-300 bg-clip-text text-transparent">{productCount}</p>
           </div>
         </section>
 
@@ -161,7 +130,7 @@ export default function Home() {
               </p>
             </div>
             <span className="rounded-full border border-white/15 bg-gradient-to-r from-white/5 to-white/[0.02] px-3 py-1 text-xs text-zinc-300 backdrop-blur-sm">
-              {loading ? "⏳ Đang tải..." : `🎯 ${featuredProducts.length} items`}
+              {loading ? "Đang tải..." : `${featuredProducts.length} items`}
             </span>
           </div>
 
@@ -228,7 +197,7 @@ export default function Home() {
                           ${p.price}
                         </p>
                         <span className="rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-zinc-300 group-hover:border-white/20 group-hover:bg-white/10 transition-all">
-                          🛒 View
+                          View
                         </span>
                       </div>
                     </div>
@@ -247,11 +216,7 @@ export default function Home() {
             <span className="text-zinc-300 font-medium">Xo May</span>
             <span className="text-zinc-500">All rights reserved.</span>
           </div>
-          <p className="flex items-center gap-2">
-            <span className="text-zinc-500">Built with</span>
-            <span className="text-red-400">❤️</span>
-            <span className="text-zinc-500">for modern shopping experience</span>
-          </p>
+          <p className="text-zinc-500">Modern shopping experience</p>
         </div>
       </footer>
     </div>
