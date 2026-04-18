@@ -48,20 +48,40 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#0f0f1a] to-[#0a0a0f] text-white overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-b from-[#0a0a0f] via-[#050506] to-[#020203] text-[#EDEDEF] overflow-hidden">
+      {/* Layer 1: Base Gradient */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,#0a0a0f_0%,#050506_50%,#020203_100%)]" />
+      
+      {/* Layer 2: Noise Texture */}
+      <div className="absolute inset-0 opacity-[0.015]" 
+           style={{
+             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+           }} 
+      />
+      
+      {/* Layer 3: Animated Gradient Blobs */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse delay-500" />
+        <div className="absolute top-0 left-1/2 w-[900px] h-[1400px] bg-[#5E6AD2]/25 rounded-full blur-[150px] animate-float" style={{ animation: 'float 10s ease-in-out infinite' }} />
+        <div className="absolute top-1/3 left-0 w-[600px] h-[800px] bg-[rgba(139,92,246,0.15)] rounded-full blur-[120px] animate-float-delayed" style={{ animation: 'float 8s ease-in-out infinite 2s' }} />
+        <div className="absolute top-1/2 right-0 w-[500px] h-[700px] bg-[rgba(99,102,241,0.12)] rounded-full blur-[100px] animate-float-delayed" style={{ animation: 'float 9s ease-in-out infinite 4s' }} />
+        <div className="absolute bottom-0 left-1/3 w-[400px] h-[600px] bg-[#5E6AD2]/10 rounded-full blur-[100px] animate-pulse" />
       </div>
+      
+      {/* Layer 4: Grid Overlay */}
+      <div className="absolute inset-0 opacity-[0.02]" 
+           style={{
+             backgroundImage: `linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)`,
+             backgroundSize: '64px 64px'
+           }} 
+      />
 
-      <header className="sticky top-0 z-20 border-b border-white/10 bg-black/60 backdrop-blur-2xl shadow-lg">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 md:px-6">
+      <header className="sticky top-0 z-20 border-b border-white/[0.06] bg-gradient-to-b from-white/[0.05] to-white/[0.02] backdrop-blur-xl shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)]">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 md:px-8 lg:px-12">
           <div className="group">
-            <p className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-1 font-medium transition-colors group-hover:text-zinc-300">
+            <p className="text-xs uppercase tracking-widest text-[#8A8F98] mb-1 font-mono transition-all duration-300 group-hover:text-[#EDEDEF]">
               ✨ xo may studio
             </p>
-            <h1 className="bg-gradient-to-r from-white via-purple-100 to-blue-200 bg-clip-text text-2xl font-black tracking-tight text-transparent md:text-3xl transition-all duration-300 group-hover:scale-105">
+            <h1 className="font-['Inter'] font-semibold tracking-tight text-2xl md:text-3xl bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent transition-all duration-300 group-hover:scale-[1.02]">
               xo may gallery
             </h1>
           </div>
@@ -69,7 +89,7 @@ export default function Home() {
           <div className="flex items-center gap-2 md:gap-3">
             <Link
               href="/"
-              className="hidden rounded-xl border border-white/15 px-4 py-2 text-sm text-zinc-200 transition-all duration-300 hover:border-white/35 hover:bg-white/5 hover:shadow-lg md:inline-flex"
+              className="hidden rounded-lg border border-white/[0.06] bg-white/[0.05] px-4 py-2 text-sm text-[#EDEDEF] font-['Inter'] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] md:inline-flex"
             >
               🏠 Trang chủ
             </Link>
@@ -77,13 +97,14 @@ export default function Home() {
               <>
                 <Link
                   href="/admin"
-                  className="rounded-xl bg-gradient-to-r from-emerald-400 to-green-400 px-4 py-2 text-sm font-semibold text-black shadow-[0_8px_20px_rgba(74,222,128,0.35)] transition-all duration-300 hover:shadow-[0_12px_30px_rgba(74,222,128,0.45)] hover:scale-105"
+                  className="rounded-lg bg-[#5E6AD2] px-6 py-3 text-sm font-medium text-white font-['Inter'] shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_4px_12px_rgba(94,106,210,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)] transition-all duration-300 hover:bg-[#6872D9] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_8px_40px_rgba(94,106,210,0.4),inset_0_1px_0_0_rgba(255,255,255,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] relative overflow-hidden group"
                 >
-                  ⚡ Cập nhật
+                  <span className="relative z-10">⚡ Cập nhật</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                 </Link>
                 <button
                   onClick={logout}
-                  className="rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-100 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:scale-105"
+                  className="rounded-lg border border-white/[0.06] bg-white/[0.05] px-4 py-3 text-sm font-medium text-[#EDEDEF] font-['Inter'] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98]"
                 >
                   🚪 Đăng xuất
                 </button>
@@ -91,7 +112,7 @@ export default function Home() {
             ) : (
               <Link
                 href="/admin/login"
-                className="rounded-xl border border-indigo-300/35 bg-gradient-to-r from-indigo-400/15 to-purple-400/15 px-4 py-2 text-sm font-semibold text-indigo-100 transition-all duration-300 hover:border-indigo-200/55 hover:bg-gradient-to-r hover:from-indigo-400/25 hover:to-purple-400/25 hover:shadow-lg hover:scale-105"
+                className="rounded-lg border border-white/[0.06] bg-transparent px-4 py-3 text-sm font-medium text-[#8A8F98] font-['Inter'] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.05] hover:text-[#EDEDEF] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98]"
               >
                 🔐 Login
               </Link>
@@ -100,51 +121,50 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="relative mx-auto w-full max-w-6xl px-4 pb-16 pt-6 md:px-6 md:pt-10">
-        <section className="mb-10 grid gap-5 rounded-3xl border border-white/10 bg-gradient-to-br from-zinc-900/90 via-zinc-900/80 to-zinc-950/80 p-6 shadow-2xl shadow-black/45 backdrop-blur-xl md:grid-cols-[1.35fr_0.65fr] md:p-8">
-          <div className="space-y-4">
-            <h2 className="max-w-xl text-3xl font-extrabold leading-tight tracking-tight bg-gradient-to-r from-white via-purple-100 to-blue-200 bg-clip-text text-transparent md:text-5xl">
+      <main className="relative mx-auto w-full max-w-6xl px-6 pb-32 pt-24 md:px-8 md:pt-32 lg:px-12 lg:pt-40">
+        <section className="mb-32 grid gap-8 rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-8 shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] md:grid-cols-[1.35fr_0.65fr] md:p-12 transition-all duration-300 hover:border-white/[0.10] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)]">
+          <div className="space-y-6">
+            <h2 className="font-['Inter'] font-semibold tracking-tight text-4xl md:text-6xl bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent">
               Bộ sưu tập nghệ thuật
             </h2>
-            <p className="max-w-lg text-sm text-zinc-300 md:text-base leading-relaxed">
+            <p className="max-w-lg text-lg text-[#8A8F98] font-['Inter'] leading-relaxed">
               Thiết kế độc đáo, phong cách riêng
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 backdrop-blur-sm">
-            <p className="text-xs uppercase tracking-[0.2em] text-zinc-400 font-medium">
+          <div className="rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8F98] font-mono">
               🎨 Tác phẩm
             </p>
-            <p className="mt-3 text-3xl font-black bg-gradient-to-r from-emerald-300 to-green-300 bg-clip-text text-transparent">{productCount}</p>
+            <p className="mt-3 text-4xl font-semibold bg-gradient-to-r from-[#5E6AD2] via-indigo-400 to-[#5E6AD2] bg-clip-text text-transparent font-['Inter']" style={{ backgroundSize: '200%', animation: 'shimmer 3s ease-in-out infinite' }}>{productCount}</p>
           </div>
         </section>
 
         <section id="products">
-          <div className="mb-6 flex items-end justify-between gap-3">
+          <div className="mb-8 flex items-end justify-between gap-3">
             <div>
-              <h3 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent md:text-3xl">
+              <h3 className="font-['Inter'] font-semibold tracking-tight text-3xl md:text-4xl bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent">
                 ✨ Tác phẩm nổi bật
               </h3>
-              <p className="mt-1 text-sm text-zinc-400">
+              <p className="mt-2 text-sm text-[#8A8F98] font-['Inter']">
                 Tuyển chọn nghệ thuật độc đáo
               </p>
             </div>
-            <span className="rounded-full border border-white/15 bg-gradient-to-r from-white/5 to-white/[0.02] px-3 py-1 text-xs text-zinc-300 backdrop-blur-sm">
+            <span className="rounded-full border border-white/[0.06] bg-white/[0.05] backdrop-blur-xl px-3 py-1 text-xs text-[#8A8F98] font-mono shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
               {loading ? "Đang tải..." : `${featuredProducts.length} items`}
             </span>
           </div>
 
           {loading && (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {[...Array(8)].map((_, i) => (
                 <div
                   key={i}
-                  className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/70 animate-pulse group"
+                  className="overflow-hidden rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] animate-pulse transition-all duration-300"
                 >
-                  <div className="h-44 bg-gradient-to-br from-zinc-800/70 to-zinc-900/70" />
-                  <div className="space-y-2 p-4">
-                    <div className="h-4 w-4/5 rounded bg-zinc-800 animate-pulse delay-75" />
-                    <div className="h-4 w-1/2 rounded bg-zinc-800/50 animate-pulse delay-100" />
+                  <div className="h-48 bg-gradient-to-br from-[#0a0a0c] to-[#050506]" />
+                  <div className="space-y-3 p-4">
+                    <div className="h-4 w-4/5 rounded bg-white/[0.05] animate-pulse delay-75" />
                   </div>
                 </div>
               ))}
@@ -152,48 +172,48 @@ export default function Home() {
           )}
 
           {!loading && featuredProducts.length === 0 && (
-            <div className="rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900/55 to-zinc-950/55 p-10 text-center backdrop-blur-sm">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center">
+            <div className="rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-12 text-center shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)]">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] flex items-center justify-center">
                 <span className="text-2xl">📦</span>
               </div>
-              <p className="text-lg font-semibold text-zinc-100">
+              <p className="text-lg font-semibold text-[#EDEDEF] font-['Inter']">
                 Chưa có tác phẩm nào
               </p>
-              <p className="mt-2 text-sm text-zinc-400">
+              <p className="mt-3 text-sm text-[#8A8F98] font-['Inter']">
                 Hãy quay lại sau, gallery đang cập nhật bộ sưu tập mới.
               </p>
             </div>
           )}
 
           {!loading && featuredProducts.length > 0 && (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {featuredProducts.map((p: any) => (
                 <Link key={p.id} href={`/product/${p.id}`}>
-                  <article className="group overflow-hidden rounded-2xl border border-zinc-800/90 bg-gradient-to-b from-zinc-900 to-zinc-950 transition-all duration-300 hover:-translate-y-2 hover:border-zinc-600 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] hover:shadow-zinc-900/50">
+                  <article className="group overflow-hidden rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-4px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)]">
                     <div className="relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#5E6AD2]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <img
                         src={
                           p.images?.[0]?.url ||
-                          "https://placehold.co/600x600/18181b/e4e4e7?text=Product"
+                          "https://placehold.co/600x600/050506/EDEDEF?text=Product"
                         }
-                        className="h-48 w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
+                        className="h-48 w-full object-cover transition-all duration-300 group-hover:scale-110"
                         alt={p.name}
                       />
-                      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span className="rounded-full bg-white/10 backdrop-blur-sm px-2 py-1 text-xs font-medium text-white">
+                      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#050506] via-transparent to-transparent" />
+                      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className="rounded-full bg-white/[0.05] backdrop-blur-xl border border-white/[0.06] px-2 py-1 text-xs font-medium text-[#EDEDEF] font-['Inter'] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
                           🔍
                         </span>
                       </div>
                     </div>
 
                     <div className="p-4 space-y-3">
-                      <h4 className="truncate text-sm font-semibold text-zinc-100 md:text-base group-hover:text-white transition-colors">
+                      <h4 className="truncate text-sm font-medium text-[#EDEDEF] font-['Inter'] group-hover:text-[#5E6AD2] transition-colors">
                         {p.name}
                       </h4>
                       <div className="flex items-center justify-between">
-                        <span className="rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-zinc-300 group-hover:border-white/20 group-hover:bg-white/10 transition-all">
+                        <span className="rounded-lg border border-white/[0.06] bg-transparent px-2 py-1 text-[10px] uppercase tracking-widest text-[#8A8F98] font-mono group-hover:border-[#5E6AD2]/30 group-hover:text-[#5E6AD2] transition-all">
                           Xem chi tiết
                         </span>
                       </div>
@@ -206,14 +226,14 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="relative border-t border-white/10 bg-black/60 backdrop-blur-xl">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-5 text-xs text-zinc-400 md:px-6">
-          <div className="flex items-center gap-2">
-            <span className="text-zinc-500">© {new Date().getFullYear()}</span>
-            <span className="text-zinc-300 font-medium">Xo May</span>
-            <span className="text-zinc-500">All rights reserved.</span>
+      <footer className="relative border-t border-white/[0.06] bg-gradient-to-b from-white/[0.05] to-white/[0.02] backdrop-blur-xl mt-32">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-8 text-xs text-[#8A8F98] font-['Inter'] md:px-8 lg:px-12">
+          <div className="flex items-center gap-3">
+            <span className="text-[#8A8F98]">© {new Date().getFullYear()}</span>
+            <span className="text-[#EDEDEF] font-medium">Xo May</span>
+            <span className="text-[#8A8F98]">All rights reserved.</span>
           </div>
-          <p className="text-zinc-500">Art gallery experience</p>
+          <p className="text-[#8A8F98]">Art gallery experience</p>
         </div>
       </footer>
     </div>
