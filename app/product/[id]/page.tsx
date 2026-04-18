@@ -68,22 +68,13 @@ export default async function ProductDetailPage({
       
       <div className="max-w-5xl mx-auto px-6 py-24 md:px-8 lg:px-12 relative">
         {/* HEADER / BACK */}
-        <div className="mb-12 flex items-center justify-between">
+        <div className="mb-12 flex justify-center">
           <a
             href="/"
-            className="inline-flex items-center gap-2 text-sm bg-white/[0.05] backdrop-blur-xl hover:bg-white/[0.08] border border-white/[0.06] px-4 py-3 rounded-lg transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] font-['Inter'] text-[#EDEDEF] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98]"
+            className="inline-flex items-center justify-center gap-2 text-sm bg-white/[0.05] backdrop-blur-xl hover:bg-white/[0.08] border border-white/[0.06] px-4 py-3 rounded-lg transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] font-['Inter'] text-[#EDEDEF] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98]"
           >
             🏠 Quay lại gallery
           </a>
-
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-[#8A8F98] font-medium font-mono">
-              Product ID:
-            </span>
-            <span className="text-xs text-[#8A8F98] font-mono bg-white/[0.05] backdrop-blur-xl border border-white/[0.06] px-2 py-1 rounded shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
-              {product.id}
-            </span>
-          </div>
         </div>
 
         {/* PRODUCT CARD */}
@@ -93,13 +84,13 @@ export default async function ProductDetailPage({
 
           {/* RIGHT - INFO */}
           <div className="flex flex-col justify-center space-y-8">
-            <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-8 shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] transition-all duration-300 hover:border-white/[0.10] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)]">
-              <div className="space-y-6">
-                <h1 className="font-['Inter'] font-semibold tracking-tight text-3xl md:text-4xl bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent">
+            <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] rounded-2xl p-4 shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] transition-all duration-300 hover:border-white/[0.10] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)]">
+              <div className="space-y-4">
+                <h1 className="font-['Inter'] font-semibold tracking-tight text-2xl md:text-3xl bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent">
                   {product.name}
                 </h1>
 
-                <div className="text-lg text-[#8A8F98] leading-relaxed font-['Inter']">
+                <div className="text-base text-[#8A8F98] leading-relaxed font-['Inter']">
                   <p>Tác phẩm nghệ thuật độc đáo, thể hiện phong cách riêng và tinh tế.</p>
                 </div>
               </div>

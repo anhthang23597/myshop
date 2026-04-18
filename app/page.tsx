@@ -87,56 +87,50 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-2 md:gap-3">
-            <Link
-              href="/"
-              className="hidden rounded-lg border border-white/[0.06] bg-white/[0.05] px-4 py-2 text-sm text-[#EDEDEF] font-['Inter'] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] md:inline-flex"
-            >
-              🏠 Trang chủ
-            </Link>
             {isAdmin ? (
               <>
                 <Link
                   href="/admin"
                   className="rounded-lg bg-[#5E6AD2] px-6 py-3 text-sm font-medium text-white font-['Inter'] shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_4px_12px_rgba(94,106,210,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)] transition-all duration-300 hover:bg-[#6872D9] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_8px_40px_rgba(94,106,210,0.4),inset_0_1px_0_0_rgba(255,255,255,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] relative overflow-hidden group"
                 >
-                  <span className="relative z-10">⚡ Cập nhật</span>
+                  <span className="relative z-10">Cập nhật</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                 </Link>
                 <button
                   onClick={logout}
                   className="rounded-lg border border-white/[0.06] bg-white/[0.05] px-4 py-3 text-sm font-medium text-[#EDEDEF] font-['Inter'] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98]"
                 >
-                  🚪 Đăng xuất
+                  Đăng xuất
                 </button>
               </>
             ) : (
               <Link
                 href="/admin/login"
-                className="rounded-lg border border-white/[0.06] bg-transparent px-4 py-3 text-sm font-medium text-[#8A8F98] font-['Inter'] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.05] hover:text-[#EDEDEF] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98]"
+                className="rounded-lg border border-white/[0.06] bg-white/[0.05] px-4 py-3 text-sm font-medium text-[#8A8F98] font-['Inter'] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:text-[#EDEDEF] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98]"
               >
-                🔐 Login
+                Login
               </Link>
             )}
           </div>
         </div>
       </header>
 
-      <main className="relative mx-auto w-full max-w-6xl px-6 pb-32 pt-24 md:px-8 md:pt-32 lg:px-12 lg:pt-40">
-        <section className="mb-32 grid gap-8 rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-8 shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] md:grid-cols-[1.35fr_0.65fr] md:p-12 transition-all duration-300 hover:border-white/[0.10] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)]">
-          <div className="space-y-6">
-            <h2 className="font-['Inter'] font-semibold tracking-tight text-4xl md:text-6xl bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent">
+      <main className="relative mx-auto w-full max-w-6xl px-6 pb-16 pt-16 md:px-8 md:pt-20 lg:px-12 lg:pt-24">
+        <section className="mb-16 grid gap-4 rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-4 shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] md:grid-cols-[1.35fr_0.65fr] md:p-6 transition-all duration-300 hover:border-white/[0.10] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)]">
+          <div className="space-y-3">
+            <h2 className="font-['Inter'] font-semibold tracking-tight text-3xl md:text-4xl bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent">
               Bộ sưu tập nghệ thuật
             </h2>
-            <p className="max-w-lg text-lg text-[#8A8F98] font-['Inter'] leading-relaxed">
+            <p className="max-w-lg text-base text-[#8A8F98] font-['Inter'] leading-relaxed">
               Thiết kế độc đáo, phong cách riêng
             </p>
           </div>
 
-          <div className="rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
+          <div className="rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-3 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
             <p className="text-xs uppercase tracking-widest text-[#8A8F98] font-mono">
               🎨 Tác phẩm
             </p>
-            <p className="mt-3 text-4xl font-semibold bg-gradient-to-r from-[#5E6AD2] via-indigo-400 to-[#5E6AD2] bg-clip-text text-transparent font-['Inter']" style={{ backgroundSize: '200%', animation: 'shimmer 3s ease-in-out infinite' }}>{productCount}</p>
+            <p className="mt-2 text-3xl font-semibold bg-gradient-to-r from-[#5E6AD2] via-indigo-400 to-[#5E6AD2] bg-clip-text text-transparent font-['Inter']" style={{ backgroundSize: '200%', animation: 'shimmer 3s ease-in-out infinite' }}>{productCount}</p>
           </div>
         </section>
 
@@ -203,7 +197,7 @@ export default function Home() {
                       <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#050506] via-transparent to-transparent" />
                       <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <span className="rounded-full bg-white/[0.05] backdrop-blur-xl border border-white/[0.06] px-2 py-1 text-xs font-medium text-[#EDEDEF] font-['Inter'] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
-                          🔍
+                          Xem
                         </span>
                       </div>
                     </div>
@@ -214,7 +208,7 @@ export default function Home() {
                       </h4>
                       <div className="flex items-center justify-between">
                         <span className="rounded-lg border border-white/[0.06] bg-transparent px-2 py-1 text-[10px] uppercase tracking-widest text-[#8A8F98] font-mono group-hover:border-[#5E6AD2]/30 group-hover:text-[#5E6AD2] transition-all">
-                          Xem chi tiết
+                          Chi tiết
                         </span>
                       </div>
                     </div>
