@@ -197,25 +197,37 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-zinc-950 via-black to-zinc-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-black to-zinc-950 text-white overflow-hidden">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+      </div>
 
       {/* HEADER */}
-      <header className="sticky top-0 z-10 bg-black/60 backdrop-blur border-b border-zinc-800">
+      <header className="sticky top-0 z-10 bg-black/80 backdrop-blur-2xl border-b border-zinc-800 shadow-lg">
         <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
-          <h1 className="text-xl font-bold">⚙️ Admin Dashboard</h1>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center">
+              <span className="text-white font-bold text-lg">⚙️</span>
+            </div>
+            <div>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">Admin Dashboard</h1>
+              <p className="text-xs text-zinc-500">Quản lý sản phẩm</p>
+            </div>
+          </div>
 
           <div className="flex items-center gap-2">
             <button
               onClick={() => router.push("/")}
-              className="bg-zinc-700 px-4 py-2 rounded-lg"
+              className="bg-zinc-800 hover:bg-zinc-700 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 flex items-center gap-2"
             >
-              ⬅ Home
+              🏠 Home
             </button>
             <button
               onClick={logout}
-              className="bg-red-500/90 hover:bg-red-500 px-4 py-2 rounded-lg text-white"
+              className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 px-4 py-2 rounded-lg text-white transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-lg"
             >
-              Đăng xuất
+              🚪 Đăng xuất
             </button>
           </div>
         </div>
@@ -223,43 +235,57 @@ export default function AdminPage() {
 
       <main className="max-w-6xl mx-auto p-4 space-y-6">
         {toast && (
-          <div className="fixed right-5 top-20 z-50">
+          <div className="fixed right-5 top-20 z-50 animate-in slide-in-from-right-5 duration-300">
             <div
-              className={`rounded-xl border px-4 py-3 text-sm shadow-xl backdrop-blur ${
+              className={`rounded-xl border px-4 py-3 text-sm shadow-2xl backdrop-blur-md flex items-center gap-2 ${
                 toast.type === "success"
-                  ? "border-emerald-400/40 bg-emerald-500/15 text-emerald-200"
+                  ? "border-emerald-400/40 bg-emerald-500/20 text-emerald-200 shadow-emerald-500/20"
                   : toast.type === "warning"
-                  ? "border-amber-400/40 bg-amber-500/15 text-amber-200"
-                  : "border-red-400/40 bg-red-500/15 text-red-200"
+                  ? "border-amber-400/40 bg-amber-500/20 text-amber-200 shadow-amber-500/20"
+                  : "border-red-400/40 bg-red-500/20 text-red-200 shadow-red-500/20"
               }`}
             >
+              <span className="text-lg">
+                {toast.type === "success" ? "✅" : toast.type === "warning" ? "⚠️" : "❌"}
+              </span>
               {toast.message}
             </div>
           </div>
         )}
 
         {/* CREATE FORM */}
-        <div className="bg-zinc-900 border border-zinc-800 p-4 rounded-xl space-y-4">
+        <div className="bg-gradient-to-br from-zinc-900/90 to-zinc-950/90 border border-zinc-800 p-6 rounded-2xl space-y-4 backdrop-blur-xl shadow-xl">
+          <div className="flex items-center gap-3 pb-2 border-b border-zinc-800">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center">
+              <span className="text-white font-bold">➕</span>
+            </div>
+            <h2 className="text-lg font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">Thêm sản phẩm mới</h2>
+          </div>
 
-          <h2 className="text-lg font-bold">➕ Thêm sản phẩm</h2>
+          <div className="space-y-2">
+            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Tên sản phẩm</label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Nhập tên sản phẩm..."
+              className="w-full p-3 rounded-lg bg-zinc-800/50 border border-zinc-700 focus:border-emerald-500 focus:bg-zinc-800 transition-all duration-300 placeholder-zinc-500"
+            />
+          </div>
 
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Tên sản phẩm"
-            className="w-full p-2 rounded bg-zinc-800"
-          />
-
-          <input
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            placeholder="Giá"
-            type="number"
-            className="w-full p-2 rounded bg-zinc-800"
-          />
+          <div className="space-y-2">
+            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Giá sản phẩm</label>
+            <input
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Nhập giá..."
+              type="number"
+              className="w-full p-3 rounded-lg bg-zinc-800/50 border border-zinc-700 focus:border-emerald-500 focus:bg-zinc-800 transition-all duration-300 placeholder-zinc-500"
+            />
+          </div>
 
           {/* UPLOAD BUTTON (CUSTOM UI) */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
+            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Hình ảnh sản phẩm</label>
 
             <input
               id="fileUpload"
@@ -276,83 +302,109 @@ export default function AdminPage() {
 
             <label
               htmlFor="fileUpload"
-              className="cursor-pointer inline-block bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 px-4 py-2 rounded-lg text-center transition"
+              className="cursor-pointer inline-block bg-gradient-to-r from-zinc-800 to-zinc-700 hover:from-zinc-700 hover:to-zinc-600 border border-zinc-600 px-4 py-3 rounded-lg text-center transition-all duration-300 hover:scale-105 hover:shadow-lg"
             >
-              📁 Choose Images (multi upload)
+              📁 Chọn ảnh sản phẩm (có thể chọn nhiều)
             </label>
 
-            <p className="text-xs text-gray-400">
-              Bạn có thể chọn nhiều ảnh cùng lúc
+            <p className="text-xs text-zinc-500 flex items-center gap-2">
+              <span>💡</span>
+              <span>Bạn có thể chọn nhiều ảnh cùng lúc để hiển thị sản phẩm tốt hơn</span>
             </p>
           </div>
 
           {/* PREVIEW */}
           {files.length > 0 && (
-            <div className="grid grid-cols-4 gap-2">
-              {files.map((file, i) => (
-                <img
-                  key={i}
-                  src={URL.createObjectURL(file)}
-                  className="h-20 w-full object-cover rounded-lg border border-zinc-700"
-                />
-              ))}
+            <div className="space-y-2">
+              <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Xem trước ({files.length} ảnh)</p>
+              <div className="grid grid-cols-4 gap-2">
+                {files.map((file, i) => (
+                  <div key={i} className="relative group">
+                    <img
+                      src={URL.createObjectURL(file)}
+                      className="h-20 w-full object-cover rounded-lg border border-zinc-700 transition-all duration-300 group-hover:border-emerald-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
           <button
             onClick={createProduct}
             disabled={loading}
-            className="bg-green-500 text-black px-4 py-2 rounded-lg w-full font-semibold"
+            className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-black px-4 py-3 rounded-lg w-full font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
           >
-            {loading ? "Đang upload..." : "Tạo sản phẩm"}
+            {loading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+                Đang xử lý...
+              </>
+            ) : (
+              <>
+                ✨ Tạo sản phẩm
+              </>
+            )}
           </button>
         </div>
 
         {/* LIST */}
-        <div className="grid gap-4">
-          {products.map((p) => (
-            <div
-              key={p.id}
-              className="bg-zinc-900 border border-zinc-800 p-4 rounded-xl flex justify-between items-center"
-            >
-              <div className="flex gap-4 items-center">
+        <div className="space-y-4">
+          <div className="flex items-center gap-3 pb-2 border-b border-zinc-800">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+              <span className="text-white font-bold">📦</span>
+            </div>
+            <h2 className="text-lg font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">Danh sách sản phẩm ({products.length})</h2>
+          </div>
 
-                {p.images?.[0]?.url ? (
-                  <img
-                    src={p.images[0].url}
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                ) : (
-                  <div className="w-16 h-16 bg-zinc-800 flex items-center justify-center text-xs">
-                    No img
+          <div className="grid gap-3">
+            {products.map((p) => (
+              <div
+                key={p.id}
+                className="bg-gradient-to-br from-zinc-900/90 to-zinc-950/90 border border-zinc-800 p-4 rounded-xl flex justify-between items-center backdrop-blur-sm hover:border-zinc-700 transition-all duration-300 hover:shadow-lg"
+              >
+                <div className="flex gap-4 items-center">
+                  {p.images?.[0]?.url ? (
+                    <div className="relative group">
+                      <img
+                        src={p.images[0].url}
+                        className="w-16 h-16 object-cover rounded-lg border border-zinc-700 transition-all duration-300 group-hover:border-emerald-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                    </div>
+                  ) : (
+                    <div className="w-16 h-16 bg-zinc-800 rounded-lg flex items-center justify-center text-xs border border-zinc-700">
+                      📷
+                    </div>
+                  )}
+
+                  <div className="space-y-1">
+                    <p className="font-semibold text-white">{p.name}</p>
+                    <p className="text-emerald-400 font-bold">${p.price}</p>
+                    <p className="text-xs text-zinc-500">ID: {p.id}</p>
                   </div>
-                )}
+                </div>
 
-                <div>
-                  <p className="font-semibold">{p.name}</p>
-                  <p className="text-green-400">${p.price}</p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => updateProduct(p.id)}
+                    className="bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 px-3 py-1 rounded-lg text-black font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-1"
+                  >
+                    ✏️ Sửa
+                  </button>
+
+                  <button
+                    onClick={() => deleteProduct(p.id)}
+                    className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 px-3 py-1 rounded-lg text-white font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-1"
+                  >
+                    🗑️ Xoá
+                  </button>
                 </div>
               </div>
-
-              <div className="flex gap-2">
-                <button
-                  onClick={() => updateProduct(p.id)}
-                  className="bg-yellow-500 px-3 py-1 rounded text-black"
-                >
-                  Sửa
-                </button>
-
-                <button
-                  onClick={() => deleteProduct(p.id)}
-                  className="bg-red-500 px-3 py-1 rounded"
-                >
-                  Xoá
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-
       </main>
     </div>
   );
