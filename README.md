@@ -25,5 +25,11 @@ npm run dev
 Build script already runs:
 
 ```bash
-prisma generate && prisma db push && next build
+prisma generate && next build
+```
+
+If you use Prisma migrations in production, run:
+
+```bash
+npm run db:migrate:deploy
 ```
