@@ -48,13 +48,7 @@ export default function Login() {
           </div>
         </div>
         
-        <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 mb-4">
-          <p className="text-xs text-zinc-400 flex items-center gap-2">
-            <span>💡</span>
-            <span>Mặc định: admin / admin</span>
-          </p>
-        </div>
-
+        
         <div className="space-y-4">
           <div className="space-y-2">
             <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Username</label>
