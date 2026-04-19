@@ -730,18 +730,16 @@ Chọn ảnh tác phẩm (có thể chọn nhiều)
                   <div className="flex flex-row sm:flex-col gap-2">
                     <button
                       onClick={() => openUpdateForm(p)}
-                      className="bg-[#5E6AD2] px-3 py-1.5 sm:px-3 sm:py-2 rounded-lg font-medium text-white font-['Inter'] text-xs sm:text-sm shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_4px_12px_rgba(94,106,210,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)] transition-all duration-300 hover:bg-[#6872D9] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_8px_40px_rgba(94,106,210,0.4),inset_0_1px_0_0_rgba(255,255,255,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] relative overflow-hidden group flex items-center justify-center gap-1"
+                      className="bg-[#5E6AD2] px-4 py-2 rounded-lg font-medium text-white font-['Inter'] text-sm shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_4px_12px_rgba(94,106,210,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)] transition-all duration-300 hover:bg-[#6872D9] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_8px_40px_rgba(94,106,210,0.4),inset_0_1px_0_0_rgba(255,255,255,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] relative overflow-hidden group flex items-center justify-center gap-1"
                     >
-                      <span className="relative z-10"></span>
-                      <span className="relative z-10 hidden sm:inline">Chỉnh sửa</span>
+                      <span className="relative z-10">Chỉnh sửa</span>
                     </button>
 
                     <button
                       onClick={() => deleteProduct(p.id)}
-                      className="border border-white/[0.06] bg-white/[0.05] px-3 py-1.5 sm:px-3 sm:py-2 rounded-lg font-medium text-[#EDEDEF] font-['Inter'] text-xs sm:text-sm shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] flex items-center justify-center gap-1"
+                      className="border border-white/[0.06] bg-white/[0.05] px-4 py-2 rounded-lg font-medium text-[#EDEDEF] font-['Inter'] text-sm shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] flex items-center justify-center gap-1"
                     >
-                      <span></span>
-                      <span className="hidden sm:inline">Xoá</span>
+                      <span>Xoá</span>
                     </button>
                   </div>
                 </div>
