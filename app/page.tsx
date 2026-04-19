@@ -168,9 +168,9 @@ export default function Home() {
 
       <Header />
 
-      <main className="relative mx-auto w-full max-w-6xl px-6 pb-16 pt-16 md:px-8 md:pt-20 lg:px-12 lg:pt-24">
+      <main className="relative mx-auto w-full max-w-6xl px-6 pb-16 pt-1 md:px-8 md:pt-2 lg:px-12 lg:pt-2">
         {/* Animated Hero Section */}
-        <section className="relative mb-20 overflow-hidden">
+        <section className="relative mb-4 overflow-hidden">
           {/* Particle Background */}
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-0 left-0 w-full h-full">
@@ -189,40 +189,6 @@ export default function Home() {
                     }}
                   />
                 ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Hero Content */}
-          <div className="relative z-10 rounded-3xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.08] p-6 md:p-8 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_4px_30px_rgba(0,0,0,0.6),0_0_60px_rgba(0,0,0,0.3)] transition-all duration-700 hover:border-white/[0.12] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.12),0_8px_60px_rgba(0,0,0,0.7),0_0_100px_rgba(94,106,210,0.15)]">
-            <div className="space-y-4">
-              <div className="space-y-3">
-                <p className="text-xs uppercase tracking-widest text-[#9CA3AF] font-mono animate-pulse">
-                  xo may studio
-                </p>
-                <h1 className="font-['Inter'] font-bold tracking-tight text-3xl md:text-4xl lg:text-5xl bg-gradient-to-br from-white via-white/95 to-white/70 bg-clip-text text-transparent animate-gradient-shift">
-                  xo may gallery
-                </h1>
-                <p className="max-w-2xl text-base md:text-lg text-[#9CA3AF] font-['Inter'] leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-                  Bộ sưu tập nghệ thuật độc đáo, nơi mỗi tác phẩm kể một câu chuyện riêng
-                </p>
-              </div>
-              
-              <div className="flex items-center gap-4">
-                <div className="rounded-2xl bg-gradient-to-br from-white/[0.10] to-white/[0.03] backdrop-blur-2xl border border-white/[0.08] p-4 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_4px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] transition-all duration-500 hover:border-white/[0.12] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.12),0_8px_40px_rgba(0,0,0,0.6),0_0_80px_rgba(94,106,210,0.1)] animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-                  <p className="text-xs uppercase tracking-widest text-[#9CA3AF] font-mono mb-1">
-                    Tác phẩm
-                  </p>
-                  <p className="text-4xl font-bold bg-gradient-to-br from-[#5E6AD2] via-[#6872D9] to-[#7C8CE0] bg-clip-text text-transparent font-['Inter'] leading-none animate-pulse-slow">
-                    {productCount}
-                  </p>
-                </div>
-                
-                <div className="space-y-2 animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
-                  <p className="text-sm text-[#8A8F98] font-mono">
-                    {loading ? "Đang tải..." : "Sẵn sàng để khám phá"}
-                  </p>
-                </div>
               </div>
             </div>
           </div>
