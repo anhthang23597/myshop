@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 async function getProducts() {
-  const res = await fetch("/api/products");
+  const res = await fetch("/api/products?limit=8");
   return res.json();
 }
 
@@ -59,21 +59,13 @@ export default function Home() {
            }} 
       />
       
-      {/* Layer 3: Animated Gradient Blobs */}
+      {/* Layer 3: Animated Gradient Blobs - Optimized */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 left-1/2 w-[900px] h-[1400px] bg-[#5E6AD2]/25 rounded-full blur-[150px] animate-float" style={{ animation: 'float 10s ease-in-out infinite' }} />
-        <div className="absolute top-1/3 left-0 w-[600px] h-[800px] bg-[rgba(139,92,246,0.15)] rounded-full blur-[120px] animate-float-delayed" style={{ animation: 'float 8s ease-in-out infinite 2s' }} />
-        <div className="absolute top-1/2 right-0 w-[500px] h-[700px] bg-[rgba(99,102,241,0.12)] rounded-full blur-[100px] animate-float-delayed" style={{ animation: 'float 9s ease-in-out infinite 4s' }} />
-        <div className="absolute bottom-0 left-1/3 w-[400px] h-[600px] bg-[#5E6AD2]/10 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute top-0 left-1/2 w-[600px] h-[800px] bg-[#5E6AD2]/20 rounded-full blur-[100px] animate-float" style={{ animation: 'float 12s ease-in-out infinite' }} />
+        <div className="absolute top-1/3 left-0 w-[400px] h-[600px] bg-[rgba(139,92,246,0.12)] rounded-full blur-[80px] animate-float-delayed" style={{ animation: 'float 10s ease-in-out infinite 3s' }} />
+        <div className="absolute bottom-0 left-1/3 w-[300px] h-[400px] bg-[#5E6AD2]/8 rounded-full blur-[60px] animate-pulse" />
       </div>
       
-      {/* Layer 4: Grid Overlay */}
-      <div className="absolute inset-0 opacity-[0.02]" 
-           style={{
-             backgroundImage: `linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)`,
-             backgroundSize: '64px 64px'
-           }} 
-      />
 
       <header className="sticky top-0 z-20 border-b border-white/[0.06] bg-gradient-to-b from-white/[0.05] to-white/[0.02] backdrop-blur-xl shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)]">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 md:px-8 lg:px-12">
@@ -130,7 +122,7 @@ export default function Home() {
             <p className="text-xs uppercase tracking-widest text-[#8A8F98] font-mono">
               🎨 Tác phẩm
             </p>
-            <p className="mt-2 text-3xl font-semibold bg-gradient-to-r from-[#5E6AD2] via-indigo-400 to-[#5E6AD2] bg-clip-text text-transparent font-['Inter']" style={{ backgroundSize: '200%', animation: 'shimmer 3s ease-in-out infinite' }}>{productCount}</p>
+            <p className="mt-2 text-3xl font-semibold bg-gradient-to-r from-[#5E6AD2] to-[#6872D9] bg-clip-text text-transparent font-['Inter']">{productCount}</p>
           </div>
         </section>
 

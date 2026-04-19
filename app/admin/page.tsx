@@ -81,7 +81,7 @@ export default function AdminPage() {
     );
   }
 
-  // UPLOAD MULTI IMAGES
+  // UPLOAD MULTI IMAGES - Optimized for mobile
   const uploadImages = async (filesToUpload: File[]): Promise<
     { url: string; publicId?: string | null }[]
   > => {
@@ -89,61 +89,96 @@ export default function AdminPage() {
 
     if (!filesToUpload.length) return uploadedImages;
 
-    for (let i = 0; i < filesToUpload.length; i++) {
-      const formData = new FormData();
-      formData.append("file", filesToUpload[i]);
+    // Check if mobile and reduce concurrent uploads
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const maxConcurrent = isMobile ? 1 : 3;
+    
+    // Upload in batches for better mobile performance
+    for (let i = 0; i < filesToUpload.length; i += maxConcurrent) {
+      const batch = filesToUpload.slice(i, i + maxConcurrent);
+      
+      const uploadPromises = batch.map(async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
 
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
+        try {
+          // Add timeout for mobile
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), isMobile ? 30000 : 60000);
+          
+          const res = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+            signal: controller.signal,
+          });
+          
+          clearTimeout(timeoutId);
+          const data = await res.json();
+
+          if (data.url) {
+            return {
+              url: data.url,
+              publicId: data.publicId ?? null,
+            };
+          }
+          return null;
+        } catch (error) {
+          console.error(`Upload failed for ${file.name}:`, error);
+          return null;
+        }
       });
 
-      const data = await res.json();
-
-      if (data.url) {
-        uploadedImages.push({
-          url: data.url,
-          publicId: data.publicId ?? null,
-        });
-      }
+      const results = await Promise.all(uploadPromises);
+      const validResults = results.filter(Boolean) as { url: string; publicId?: string | null }[];
+      uploadedImages.push(...validResults);
     }
 
     return uploadedImages;
   };
 
-  // CREATE PRODUCT
+  // CREATE PRODUCT - Mobile optimized
   const createProduct = async () => {
     if (!createName) return;
 
     setLoading(true);
+    
+    try {
+      const uploadedImages = await uploadImages(createFiles);
+      
+      if (uploadedImages.length === 0 && createFiles.length > 0) {
+        showToast("error", "Upload ảnh thất bại. Vui lòng thử lại.");
+        setLoading(false);
+        return;
+      }
 
-    const uploadedImages = await uploadImages(createFiles);
+      const response = await fetch("/api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: createName,
+          price: 0,
+          images: uploadedImages,
+        }),
+      });
 
-    const res = await fetch("/api/products", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: createName,
-        price: 0,
-        images: uploadedImages,
-      }),
-    });
+      if (!response.ok) {
+        showToast("error", "Tác tác phám thát bai.");
+        return;
+      }
 
-    if (!res.ok) {
-      showToast("error", "Tạo tác phẩm thất bại.");
+      setCreateName("");
+      setCreateFiles([]);
+      setShowCreateForm(false);
+      
+      await fetchProducts();
+      showToast("success", "Đã tạo tác phẩm.");
+    } catch (error) {
+      showToast("error", "Có lỗi xảy ra. Vui lòng thử lại.");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    setCreateName("");
-    setCreateFiles([]);
-    setShowCreateForm(false);
-
-    setLoading(false);
-    fetchProducts();
-    showToast("success", "Đã tạo tác phẩm.");
   };
 
   // DELETE
@@ -246,21 +281,21 @@ export default function AdminPage() {
            }} 
       />
       
-      {/* Layer 3: Animated Gradient Blobs */}
+      {/* Layer 3: Animated Gradient Blobs - Mobile Optimized */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 left-1/2 w-[900px] h-[1400px] bg-[#5E6AD2]/25 rounded-full blur-[150px] animate-float" style={{ animation: 'float 10s ease-in-out infinite' }} />
-        <div className="absolute top-1/3 left-0 w-[600px] h-[800px] bg-[rgba(139,92,246,0.15)] rounded-full blur-[120px] animate-float-delayed" style={{ animation: 'float 8s ease-in-out infinite 2s' }} />
-        <div className="absolute top-1/2 right-0 w-[500px] h-[700px] bg-[rgba(99,102,241,0.12)] rounded-full blur-[100px] animate-float-delayed" style={{ animation: 'float 9s ease-in-out infinite 4s' }} />
-        <div className="absolute bottom-0 left-1/3 w-[400px] h-[600px] bg-[#5E6AD2]/10 rounded-full blur-[100px] animate-pulse" />
+        {/* Desktop: Full animations */}
+        <div className="hidden md:block">
+          <div className="absolute top-0 left-1/2 w-[600px] h-[800px] bg-[#5E6AD2]/20 rounded-full blur-[100px] animate-float" style={{ animation: 'float 12s ease-in-out infinite' }} />
+          <div className="absolute top-1/3 left-0 w-[400px] h-[600px] bg-[rgba(139,92,246,0.12)] rounded-full blur-[80px] animate-float-delayed" style={{ animation: 'float 10s ease-in-out infinite 3s' }} />
+          <div className="absolute bottom-0 left-1/3 w-[300px] h-[400px] bg-[#5E6AD2]/8 rounded-full blur-[60px] animate-pulse" />
+        </div>
+        
+        {/* Mobile: Minimal static background */}
+        <div className="md:hidden">
+          <div className="absolute top-0 left-1/2 w-[300px] h-[400px] bg-[#5E6AD2]/10 rounded-full blur-[60px]" />
+          <div className="absolute bottom-0 right-0 w-[200px] h-[300px] bg-[rgba(139,92,246,0.08)] rounded-full blur-[40px]" />
+        </div>
       </div>
-      
-      {/* Layer 4: Grid Overlay */}
-      <div className="absolute inset-0 opacity-[0.02]" 
-           style={{
-             backgroundImage: `linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)`,
-             backgroundSize: '64px 64px'
-           }} 
-      />
 
       {/* HEADER */}
       <header className="sticky top-0 z-10 border-b border-white/[0.06] bg-gradient-to-b from-white/[0.05] to-white/[0.02] backdrop-blur-xl shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)]">

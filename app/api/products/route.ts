@@ -1,9 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import { isAdminSession } from "@/lib/session";
 
-export async function GET() {
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : undefined;
+
   const products = await prisma.product.findMany({
     include: { images: true },
+    take: limit,
   });
 
   return Response.json(products);
