@@ -110,7 +110,52 @@ export default function AdminPage() {
     }
   };
 
-  // UPLOAD MULTI IMAGES - Simplified for mobile debugging
+  // CONVERT FILE TO JPEG FOR MOBILE COMPATIBILITY
+  const convertToJpeg = async (file: File): Promise<File> => {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      
+      img.onload = () => {
+        // Limit dimensions for mobile
+        const maxDim = 1200;
+        let { width, height } = img;
+        
+        if (width > maxDim || height > maxDim) {
+          const ratio = Math.min(maxDim / width, maxDim / height);
+          width *= ratio;
+          height *= ratio;
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        ctx?.drawImage(img, 0, 0, width, height);
+        
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              const convertedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '.jpg'), {
+                type: 'image/jpeg',
+                lastModified: Date.now()
+              });
+              resolve(convertedFile);
+            } else {
+              reject(new Error('Canvas conversion failed'));
+            }
+          },
+          'image/jpeg',
+          0.8
+        );
+      };
+      
+      img.onerror = () => reject(new Error('Image load failed'));
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
+  // UPLOAD MULTI IMAGES - Mobile optimized with file conversion
   const uploadImages = async (filesToUpload: File[]): Promise<
     { url: string; publicId?: string | null }[]
   > => {
@@ -120,38 +165,63 @@ export default function AdminPage() {
 
     console.log(`Starting upload for ${filesToUpload.length} files`);
     
-    // Test first file
-    if (filesToUpload.length > 0) {
-      await testUpload(filesToUpload[0]);
-    }
-    
-    // Simple sequential upload for mobile reliability
+    // Process files one by one for mobile reliability
     for (let i = 0; i < filesToUpload.length; i++) {
-      const file = filesToUpload[i];
-      console.log(`Uploading file ${i + 1}/${filesToUpload.length}: ${file.name}, size: ${file.size}`);
+      const originalFile = filesToUpload[i];
+      console.log(`Processing file ${i + 1}/${filesToUpload.length}: ${originalFile.name}, size: ${originalFile.size}`);
       
       try {
-        // Check file size (limit to 5MB for mobile)
-        if (file.size > 5 * 1024 * 1024) {
-          console.warn(`File ${file.name} too large: ${file.size} bytes`);
-          showToast("error", `File ${file.name} quá lớn (max 5MB)`);
+        let fileToUpload = originalFile;
+        
+        // Convert non-JPEG files and large files for mobile compatibility
+        if (!originalFile.type.startsWith('image/jpeg') || originalFile.size > 2 * 1024 * 1024) {
+          console.log(`Converting file for mobile compatibility...`);
+          fileToUpload = await convertToJpeg(originalFile);
+          console.log(`Converted file size: ${fileToUpload.size}`);
+        }
+        
+        // Final size check (strict 2MB limit for mobile)
+        if (fileToUpload.size > 2 * 1024 * 1024) {
+          console.warn(`File ${fileToUpload.name} still too large: ${fileToUpload.size} bytes`);
+          showToast("error", `File ${fileToUpload.name} quá lón (max 2MB sau khi nén)`);
           continue;
         }
         
+        // Create FormData with mobile-specific headers
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append('file', fileToUpload);
+        
+        console.log(`Uploading converted file: ${fileToUpload.name}, type: ${fileToUpload.type}`);
 
-        const res = await fetch("/api/upload", {
-          method: "POST",
+        // Mobile-specific fetch options
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 45000); // 45s timeout for mobile
+        
+        const res = await fetch('/api/upload', {
+          method: 'POST',
           body: formData,
+          signal: controller.signal,
+          headers: {
+            // Ensure mobile compatibility
+            'Accept': 'application/json',
+          },
         });
         
+        clearTimeout(timeoutId);
         console.log(`Upload response status: ${res.status}`);
         
         if (!res.ok) {
-          const errorData = await res.json().catch(() => ({ error: "Unknown error" }));
-          console.error(`Upload failed:`, errorData);
-          showToast("error", `Upload ${file.name} thất bại: ${errorData.error || "Lỗi server"}`);
+          const errorText = await res.text();
+          console.error(`Upload failed with status ${res.status}:`, errorText);
+          
+          let errorData;
+          try {
+            errorData = JSON.parse(errorText);
+          } catch {
+            errorData = { error: errorText || 'Unknown error' };
+          }
+          
+          showToast("error", `Upload thất bại: ${errorData.error || `Lỗi server (${res.status})`}`);
           continue;
         }
         
@@ -163,13 +233,20 @@ export default function AdminPage() {
             url: data.url,
             publicId: data.publicId ?? null,
           });
+          showToast("success", `Đã upload ${fileToUpload.name}`);
         } else {
           console.error(`No URL in response:`, data);
-          showToast("error", `Upload ${file.name} không có URL`);
+          showToast("error", `Upload ${fileToUpload.name} không có URL`);
         }
       } catch (error: any) {
-        console.error(`Upload error for ${file.name}:`, error);
-        showToast("error", `Upload ${file.name} lỗi: ${error?.message || 'Lỗi không xác định'}`);
+        console.error(`Upload error for ${originalFile.name}:`, error);
+        
+        let errorMessage = error?.message || 'Lỗi không xác định';
+        if (error.name === 'AbortError') {
+          errorMessage = 'Timeout - kết nối mạng không ổn định';
+        }
+        
+        showToast("error", `Upload ${originalFile.name} lỗi: ${errorMessage}`);
       }
     }
 
