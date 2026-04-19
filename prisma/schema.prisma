@@ -11,6 +11,7 @@ model Product {
   id      String  @id @default(cuid())
   name    String
   price   Int
+  order   Int     @default(0)
   images  Image[]
 }
 

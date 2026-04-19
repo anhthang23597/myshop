@@ -53,6 +53,101 @@ export default function AdminPage() {
     setProducts(data);
   };
 
+  // DRAG AND DROP STATE
+  const [draggedItem, setDraggedItem] = useState<Product | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  // DRAG HANDLERS
+  const handleDragStart = (e: React.DragEvent, product: Product, index: number) => {
+    console.log('Drag start:', product.name, index);
+    setDraggedItem(product);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', index.toString());
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverIndex(index);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    // Only clear if leaving the actual element, not child elements
+    if (e.currentTarget === e.target) {
+      setDragOverIndex(null);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragOverIndex(null);
+    
+    if (!draggedItem) {
+      console.log('No dragged item');
+      return;
+    }
+    
+    const draggedIndex = products.findIndex(p => p.id === draggedItem.id);
+    console.log('Drop:', draggedIndex, 'to', dropIndex);
+    
+    if (draggedIndex === dropIndex) {
+      console.log('Same index, no reordering');
+      setDraggedItem(null);
+      return;
+    }
+    
+    // Reorder products
+    const newProducts = [...products];
+    newProducts.splice(draggedIndex, 1);
+    newProducts.splice(dropIndex, 0, draggedItem);
+    
+    console.log('New order:', newProducts.map(p => p.name));
+    setProducts(newProducts);
+    setDraggedItem(null);
+    
+    // Save new order to database
+    saveProductOrder(newProducts);
+  };
+
+  // Touch handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent, product: Product, index: number) => {
+    setDraggedItem(product);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault();
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent, dropIndex: number) => {
+    if (!draggedItem) return;
+    
+    const draggedIndex = products.findIndex(p => p.id === draggedItem.id);
+    if (draggedIndex === dropIndex) return;
+    
+    const newProducts = [...products];
+    newProducts.splice(draggedIndex, 1);
+    newProducts.splice(dropIndex, 0, draggedItem);
+    
+    setProducts(newProducts);
+    setDraggedItem(null);
+    saveProductOrder(newProducts);
+  };
+
+  const saveProductOrder = async (orderedProducts: Product[]) => {
+    try {
+      const productIds = orderedProducts.map(p => p.id);
+      await fetch('/api/products/reorder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productIds })
+      });
+    } catch (error) {
+      console.error('Failed to save product order:', error);
+    }
+  };
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -556,13 +651,7 @@ Chọn ảnh tác phẩm (có thể chọn nhiều)
         {/* UPDATE FORM */}
         {showUpdateForm && editingProduct && (
           <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-6 rounded-2xl space-y-4 shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] transition-all duration-300 hover:border-white/[0.10] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)]">
-            <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-[#5E6AD2] flex items-center justify-center shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_4px_12px_rgba(94,106,210,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)]">
-                  <span className="text-white font-bold"></span>
-                </div>
-                <h2 className="font-['Inter'] font-semibold text-lg bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent">Cập nhật</h2>
-              </div>
+            <div className="flex items-center justify-end pb-4">
               <button
                 onClick={closeForms}
                 className="text-[#8A8F98] hover:text-[#EDEDEF] transition-colors"
@@ -668,10 +757,18 @@ Chọn ảnh tác phẩm (có thể chọn nhiều)
 
           {/* Mobile-optimized product list */}
           <div className="space-y-3 sm:space-y-4">
-            {products.map((p) => (
+            {products.map((p, index) => (
               <div
                 key={p.id}
-                className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)]"
+                draggable
+                onDragStart={(e) => handleDragStart(e, p, index)}
+                onDragEnd={() => setDraggedItem(null)}
+                className={`bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] cursor-move select-none ${
+                  dragOverIndex === index ? 'border-[#5E6AD2]/50 bg-white/[0.12] scale-[1.02]' : ''
+                } ${draggedItem?.id === p.id ? 'opacity-50 scale-95' : ''}`}
+                onDragOver={(e) => handleDragOver(e, index)}
+                onDragLeave={handleDragLeave}
+                onDrop={(e) => handleDrop(e, index)}
               >
                 {/* Mobile: Vertical layout */}
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
