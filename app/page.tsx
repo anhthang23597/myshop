@@ -207,7 +207,7 @@ export default function Home() {
                         </h4>
                         <div className="flex items-center justify-between">
                           <span className="rounded-lg border border-white/[0.06] bg-transparent px-2 py-1 text-[10px] uppercase tracking-widest text-[#8A8F98] font-mono group-hover:border-[#5E6AD2]/30 group-hover:text-[#5E6AD2] transition-all">
-                            Chi tiát
+                            Chi tiết
                           </span>
                         </div>
                       </div>

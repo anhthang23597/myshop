@@ -699,48 +699,56 @@ export default function AdminPage() {
             <h2 className="font-['Inter'] font-semibold text-lg bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent">Danh sách tác phẩm ({products.length})</h2>
           </div>
 
-          <div className="grid gap-4">
+          {/* Mobile-optimized product list */}
+          <div className="space-y-3 sm:space-y-4">
             {products.map((p) => (
               <div
                 key={p.id}
-                className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-4 rounded-2xl flex justify-between items-center shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)]"
+                className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.06] p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)]"
               >
-                <div className="flex gap-4 items-center">
-                  {p.images?.[0]?.url ? (
-                    <div className="relative group">
-                      <img
-                        src={p.images[0].url}
-                        className="w-16 h-16 object-cover rounded-lg border border-white/[0.06] transition-all duration-300 group-hover:border-[#5E6AD2]/50 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#050506]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
-                    </div>
-                  ) : (
-                    <div className="w-16 h-16 bg-white/[0.05] rounded-lg flex items-center justify-center text-xs border border-white/[0.06] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
-                      📷
-                    </div>
-                  )}
+                {/* Mobile: Vertical layout */}
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+                  <div className="flex gap-3 items-start">
+                    {p.images?.[0]?.url ? (
+                      <div className="relative group flex-shrink-0">
+                        <img
+                          src={p.images[0].url}
+                          className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-lg border border-white/[0.06] transition-all duration-300 group-hover:border-[#5E6AD2]/50 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#050506]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                      </div>
+                    ) : (
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/[0.05] rounded-lg flex items-center justify-center text-xs border border-white/[0.06] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] flex-shrink-0">
+                        📷
+                      </div>
+                    )}
 
-                  <div className="space-y-1">
-                    <p className="font-medium text-[#EDEDEF] font-['Inter']">{p.name}</p>
-                    <p className="text-xs text-[#8A8F98] font-mono">ID: {p.id}</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-[#EDEDEF] font-['Inter'] text-sm sm:text-base truncate">{p.name}</p>
+                      <p className="text-xs text-[#8A8F98] font-mono mt-1">
+                        {p.images?.length || 0} ảnh
+                      </p>
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => openUpdateForm(p)}
-                    className="bg-[#5E6AD2] px-3 py-2 rounded-lg font-medium text-white font-['Inter'] shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_4px_12px_rgba(94,106,210,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)] transition-all duration-300 hover:bg-[#6872D9] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_8px_40px_rgba(94,106,210,0.4),inset_0_1px_0_0_rgba(255,255,255,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] relative overflow-hidden group flex items-center gap-1"
-                  >
-                    <span className="relative z-10">📝 Chỉnh sửa</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                  </button>
+                  {/* Mobile: Stacked buttons */}
+                  <div className="flex flex-row sm:flex-col gap-2">
+                    <button
+                      onClick={() => openUpdateForm(p)}
+                      className="bg-[#5E6AD2] px-3 py-1.5 sm:px-3 sm:py-2 rounded-lg font-medium text-white font-['Inter'] text-xs sm:text-sm shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_4px_12px_rgba(94,106,210,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)] transition-all duration-300 hover:bg-[#6872D9] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_8px_40px_rgba(94,106,210,0.4),inset_0_1px_0_0_rgba(255,255,255,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] relative overflow-hidden group flex items-center justify-center gap-1"
+                    >
+                      <span className="relative z-10">📝</span>
+                      <span className="relative z-10 hidden sm:inline">Chỉnh sửa</span>
+                    </button>
 
-                  <button
-                    onClick={() => deleteProduct(p.id)}
-                    className="border border-white/[0.06] bg-white/[0.05] px-3 py-2 rounded-lg font-medium text-[#EDEDEF] font-['Inter'] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] flex items-center gap-1"
-                  >
-                    🗑 Xoá
-                  </button>
+                    <button
+                      onClick={() => deleteProduct(p.id)}
+                      className="border border-white/[0.06] bg-white/[0.05] px-3 py-1.5 sm:px-3 sm:py-2 rounded-lg font-medium text-[#EDEDEF] font-['Inter'] text-xs sm:text-sm shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] flex items-center justify-center gap-1"
+                    >
+                      <span>🗑</span>
+                      <span className="hidden sm:inline">Xoá</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
