@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 type Image = {
   url: string;
-  publicId?: string | null;
 };
 
 type Product = {
@@ -157,9 +156,9 @@ export default function AdminPage() {
 
   // UPLOAD MULTI IMAGES - Mobile optimized with file conversion
   const uploadImages = async (filesToUpload: File[]): Promise<
-    { url: string; publicId?: string | null }[]
+    { url: string }[]
   > => {
-    const uploadedImages: { url: string; publicId?: string | null }[] = [];
+    const uploadedImages: { url: string }[] = [];
 
     if (!filesToUpload.length) return uploadedImages;
 
@@ -231,7 +230,6 @@ export default function AdminPage() {
         if (data.url) {
           uploadedImages.push({
             url: data.url,
-            publicId: data.publicId ?? null,
           });
           showToast("success", `Đã upload ${fileToUpload.name}`);
         } else {
@@ -709,12 +707,14 @@ Chọn ảnh tác phẩm (có thể chọn nhiều)
                       <div className="relative group flex-shrink-0">
                         <img
                           src={p.images[0].url}
-                          className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-lg border border-white/[0.06] transition-all duration-300 group-hover:border-[#5E6AD2]/50 group-hover:scale-105"
+                          alt={p.name}
+                          className="w-16 h-16 object-cover rounded-lg border border-white/[0.06] transition-all duration-300 group-hover:border-[#5E6AD2]/50 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#050506]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
                       </div>
                     ) : (
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/[0.05] rounded-lg flex items-center justify-center text-xs border border-white/[0.06] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] flex-shrink-0">
+                      <div className="w-16 h-16 bg-white/[0.05] rounded-lg flex items-center justify-center text-xs border border-white/[0.06] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] flex-shrink-0">
+                        No Image
                       </div>
                     )}
 
