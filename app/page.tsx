@@ -149,7 +149,7 @@ export default function Home() {
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-[#0a0a0f] via-[#050506] to-[#020203] text-[#EDEDEF] overflow-hidden">
       {/* Layer 1: Base Gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,#0a0a0f_0%,#050506_50%,#020203_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,#0f0f1a_0%,#0a0a12_40%,#050508_100%)]" />
       
       {/* Layer 2: Noise Texture */}
       <div className="absolute inset-0 opacity-[0.015]" 
@@ -158,11 +158,12 @@ export default function Home() {
            }} 
       />
       
-      {/* Layer 3: Animated Gradient Blobs - Optimized */}
+      {/* Layer 3: Animated Gradient Blobs - Enhanced Colors */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 left-1/2 w-[600px] h-[800px] bg-[#5E6AD2]/20 rounded-full blur-[100px] animate-float" style={{ animation: 'float 12s ease-in-out infinite' }} />
-        <div className="absolute top-1/3 left-0 w-[400px] h-[600px] bg-[rgba(139,92,246,0.12)] rounded-full blur-[80px] animate-float-delayed" style={{ animation: 'float 10s ease-in-out infinite 3s' }} />
-        <div className="absolute bottom-0 left-1/3 w-[300px] h-[400px] bg-[#5E6AD2]/8 rounded-full blur-[60px] animate-pulse" />
+        <div className="absolute top-0 left-1/2 w-[700px] h-[900px] bg-gradient-to-br from-[#5E6AD2]/25 via-[#8B5CF6]/20 to-[#EC4899]/15 rounded-full blur-[120px] animate-float" style={{ animation: 'float 15s ease-in-out infinite' }} />
+        <div className="absolute top-1/3 left-0 w-[500px] h-[700px] bg-gradient-to-br from-[#06B6D4]/20 via-[#8B5CF6]/15 to-[#5E6AD2]/10 rounded-full blur-[100px] animate-float-delayed" style={{ animation: 'float 12s ease-in-out infinite 3s' }} />
+        <div className="absolute bottom-0 left-1/3 w-[400px] h-[500px] bg-gradient-to-br from-[#F472B6]/18 via-[#8B5CF6]/12 to-[#06B6D4]/10 rounded-full blur-[80px] animate-pulse" style={{ animation: 'pulse 8s ease-in-out infinite' }} />
+        <div className="absolute top-1/2 right-0 w-[350px] h-[450px] bg-gradient-to-br from-[#10B981]/15 via-[#06B6D4]/12 to-[#5E6AD2]/10 rounded-full blur-[90px] animate-float" style={{ animation: 'float 18s ease-in-out infinite 5s' }} />
       </div>
       
 

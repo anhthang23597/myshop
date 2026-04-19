@@ -35,13 +35,14 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-20 border-b border-white/[0.06] bg-gradient-to-b from-white/[0.05] to-white/[0.02] backdrop-blur-xl shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)]">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 md:px-8 lg:px-12">
+    <header className="sticky top-0 z-20 border-b border-white/[0.06] bg-gradient-to-b from-white/[0.05] to-white/[0.02] backdrop-blur-xl shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_2px_20px_rgba(0,0,0,0.4),0_0_40px_rgba(0,0,0,0.2)] overflow-visible">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-10 md:px-8 lg:px-12">
         <Link href="/" className="group">
-          <p className="text-xs uppercase tracking-widest text-[#8A8F98] mb-1 font-mono transition-all duration-300 group-hover:text-[#EDEDEF]">
+          <p className="text-xs md:text-sm uppercase tracking-[0.35em] text-[#C9D1D9] mb-[-2px] font-['Cinzel'] font-light transition-all duration-500 group-hover:text-[#EDEDEF] group-hover:tracking-[0.4em] group-hover:text-shadow-[0_0_20px_rgba(201,209,217,0.5)]">
             xo may studio
           </p>
-          <h1 className="font-['Inter'] font-semibold tracking-tight text-2xl md:text-3xl bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent transition-all duration-300 group-hover:scale-[1.02]">
+          <h1 className="font-['Cinzel'] font-bold tracking-tight text-4xl md:text-5xl lg:text-6xl leading-[1.2] bg-gradient-to-r from-[#8B5CF6] via-[#A78BFA] via-[#C084FC] via-[#D946EF] via-[#EC4899] via-[#F472B6] to-[#FB7185] bg-clip-text text-transparent transition-all duration-500 group-hover:scale-[1.02] group-hover:from-[#A78BFA] group-hover:via-[#C084FC] group-hover:via-[#D946EF] group-hover:via-[#EC4899] group-hover:via-[#F472B6] group-hover:via-[#FB7185] group-hover:to-[#FC8D9D] drop-shadow-[0_0_40px_rgba(139,92,246,0.3)] group-hover:drop-shadow-[0_0_60px_rgba(236,72,153,0.2)] relative">
+            <span className="absolute inset-0 bg-gradient-to-r from-[#8B5CF6]/30 via-[#A78BFA]/25 via-[#C084FC]/20 via-[#D946EF]/15 via-[#EC4899]/20 via-[#F472B6]/15 via-[#FB7185]/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
             xo may gallery
           </h1>
         </Link>
