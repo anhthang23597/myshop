@@ -1,30 +1,48 @@
 import { isAdminSession } from "@/lib/session";
 
 export async function POST(req: Request) {
-  if (!isAdminSession(req)) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   console.log("===== UPLOAD START =====");
+  console.log("Request headers:", Object.fromEntries(req.headers.entries()));
+  console.log("Request method:", req.method);
+  console.log("Request URL:", req.url);
+
+  // Check session first
+  const isAuthorized = isAdminSession(req);
+  console.log("Authorization check:", isAuthorized);
+  
+  if (!isAuthorized) {
+    console.log("â UNAUTHORIZED - Session invalid");
+    return Response.json({ error: "Unauthorized - Please login again" }, { status: 401 });
+  }
 
   try {
     console.log("1. Reading formData...");
 
     const formData = await req.formData();
+    console.log("FormData entries count:", formData.entries.length);
 
     const file = formData.get("file");
 
     console.log("2. File received:", file);
     console.log("3. File type:", file?.constructor?.name);
+    
+    if (file instanceof File) {
+      console.log("4. File details:", {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified
+      });
+    }
 
     if (!file) {
-      console.log("❌ NO FILE");
-      return Response.json({ error: "No file" }, { status: 400 });
+      console.log("â NO FILE");
+      return Response.json({ error: "No file received" }, { status: 400 });
     }
 
     if (!(file instanceof File)) {
-      console.log("❌ INVALID FILE TYPE");
-      return Response.json({ error: "Invalid file" }, { status: 400 });
+      console.log("â INVALID FILE TYPE");
+      return Response.json({ error: "Invalid file type" }, { status: 400 });
     }
 
     console.log("4. Preparing Cloudinary request...");

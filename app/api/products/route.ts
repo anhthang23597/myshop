@@ -2,12 +2,10 @@ import { prisma } from "@/lib/prisma";
 import { isAdminSession } from "@/lib/session";
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : undefined;
-
+  // For now, return all products without limit
+  // Can add limit back later if needed for performance
   const products = await prisma.product.findMany({
     include: { images: true },
-    take: limit,
   });
 
   return Response.json(products);

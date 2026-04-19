@@ -81,7 +81,36 @@ export default function AdminPage() {
     );
   }
 
-  // UPLOAD MULTI IMAGES - Optimized for mobile
+  // TEST UPLOAD FUNCTION
+  const testUpload = async (file: File) => {
+    console.log("===== TEST UPLOAD START =====");
+    console.log("Testing file:", file.name, file.size, file.type);
+    
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    try {
+      const res = await fetch("/api/test-upload", {
+        method: "POST",
+        body: formData,
+      });
+      
+      console.log("Test response status:", res.status);
+      const data = await res.json();
+      console.log("Test response data:", data);
+      
+      if (res.ok) {
+        showToast("success", `Test upload thành công: ${file.name}`);
+      } else {
+        showToast("error", `Test upload thất bại: ${data.error}`);
+      }
+    } catch (error: any) {
+      console.error("Test upload error:", error);
+      showToast("error", `Test upload lỗi: ${error.message}`);
+    }
+  };
+
+  // UPLOAD MULTI IMAGES - Simplified for mobile debugging
   const uploadImages = async (filesToUpload: File[]): Promise<
     { url: string; publicId?: string | null }[]
   > => {
@@ -89,82 +118,108 @@ export default function AdminPage() {
 
     if (!filesToUpload.length) return uploadedImages;
 
-    // Check if mobile and reduce concurrent uploads
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    const maxConcurrent = isMobile ? 1 : 3;
+    console.log(`Starting upload for ${filesToUpload.length} files`);
     
-    // Upload in batches for better mobile performance
-    for (let i = 0; i < filesToUpload.length; i += maxConcurrent) {
-      const batch = filesToUpload.slice(i, i + maxConcurrent);
+    // Test first file
+    if (filesToUpload.length > 0) {
+      await testUpload(filesToUpload[0]);
+    }
+    
+    // Simple sequential upload for mobile reliability
+    for (let i = 0; i < filesToUpload.length; i++) {
+      const file = filesToUpload[i];
+      console.log(`Uploading file ${i + 1}/${filesToUpload.length}: ${file.name}, size: ${file.size}`);
       
-      const uploadPromises = batch.map(async (file) => {
+      try {
+        // Check file size (limit to 5MB for mobile)
+        if (file.size > 5 * 1024 * 1024) {
+          console.warn(`File ${file.name} too large: ${file.size} bytes`);
+          showToast("error", `File ${file.name} quá lớn (max 5MB)`);
+          continue;
+        }
+        
         const formData = new FormData();
         formData.append("file", file);
 
-        try {
-          // Add timeout for mobile
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), isMobile ? 30000 : 60000);
-          
-          const res = await fetch("/api/upload", {
-            method: "POST",
-            body: formData,
-            signal: controller.signal,
-          });
-          
-          clearTimeout(timeoutId);
-          const data = await res.json();
-
-          if (data.url) {
-            return {
-              url: data.url,
-              publicId: data.publicId ?? null,
-            };
-          }
-          return null;
-        } catch (error) {
-          console.error(`Upload failed for ${file.name}:`, error);
-          return null;
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+        
+        console.log(`Upload response status: ${res.status}`);
+        
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({ error: "Unknown error" }));
+          console.error(`Upload failed:`, errorData);
+          showToast("error", `Upload ${file.name} thất bại: ${errorData.error || "Lỗi server"}`);
+          continue;
         }
-      });
-
-      const results = await Promise.all(uploadPromises);
-      const validResults = results.filter(Boolean) as { url: string; publicId?: string | null }[];
-      uploadedImages.push(...validResults);
+        
+        const data = await res.json();
+        console.log(`Upload success:`, data);
+        
+        if (data.url) {
+          uploadedImages.push({
+            url: data.url,
+            publicId: data.publicId ?? null,
+          });
+        } else {
+          console.error(`No URL in response:`, data);
+          showToast("error", `Upload ${file.name} không có URL`);
+        }
+      } catch (error: any) {
+        console.error(`Upload error for ${file.name}:`, error);
+        showToast("error", `Upload ${file.name} lỗi: ${error?.message || 'Lỗi không xác định'}`);
+      }
     }
 
+    console.log(`Upload completed. Success: ${uploadedImages.length}/${filesToUpload.length}`);
     return uploadedImages;
   };
 
-  // CREATE PRODUCT - Mobile optimized
+  // CREATE PRODUCT - Mobile optimized with debugging
   const createProduct = async () => {
-    if (!createName) return;
+    if (!createName) {
+      showToast("error", "Vui lòng nhập tên tác phẩm");
+      return;
+    }
 
+    console.log(`Creating product: ${createName} with ${createFiles.length} files`);
     setLoading(true);
     
     try {
       const uploadedImages = await uploadImages(createFiles);
       
       if (uploadedImages.length === 0 && createFiles.length > 0) {
-        showToast("error", "Upload ảnh thất bại. Vui lòng thử lại.");
+        showToast("error", "Upload tất cả ảnh thất bại. Vui lòng thử lại.");
         setLoading(false);
         return;
       }
+      
+      console.log(`Images uploaded: ${uploadedImages.length}`);
 
+      const productData = {
+        name: createName,
+        price: 0,
+        images: uploadedImages,
+      };
+      
+      console.log(`Creating product with data:`, productData);
+      
       const response = await fetch("/api/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: createName,
-          price: 0,
-          images: uploadedImages,
-        }),
+        body: JSON.stringify(productData),
       });
 
+      console.log(`Product creation response: ${response.status}`);
+      
       if (!response.ok) {
-        showToast("error", "Tác tác phám thát bai.");
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
+        console.error(`Product creation failed:`, errorData);
+        showToast("error", `Tạo tác phẩm thất bại: ${errorData.error || "Lỗi server"}`);
         return;
       }
 

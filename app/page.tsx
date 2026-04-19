@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 async function getProducts() {
-  const res = await fetch("/api/products?limit=8");
+  const res = await fetch("/api/products");
   return res.json();
 }
 
