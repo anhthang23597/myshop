@@ -73,7 +73,7 @@ export default async function ProductDetailPage({
             href="/"
             className="inline-flex items-center justify-center gap-2 text-sm bg-white/[0.05] backdrop-blur-xl hover:bg-white/[0.08] border border-white/[0.06] px-4 py-3 rounded-lg transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] font-['Inter'] text-[#EDEDEF] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98]"
           >
-            🏠 Quay lại gallery
+Quay lại gallery
           </a>
         </div>
 

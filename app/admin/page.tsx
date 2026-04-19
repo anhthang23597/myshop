@@ -447,13 +447,13 @@ export default function AdminPage() {
               onClick={() => router.push("/")}
               className="rounded-lg border border-white/[0.06] bg-white/[0.05] px-4 py-3 text-sm font-medium text-[#EDEDEF] font-['Inter'] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98]"
             >
-              🏠 Home
+Home
             </button>
             <button
               onClick={logout}
               className="rounded-lg border border-white/[0.06] bg-white/[0.05] px-4 py-3 text-sm font-medium text-[#EDEDEF] font-['Inter'] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98]"
             >
-              🚪 Đăng xuất
+Đăng xuất
             </button>
           </div>
         </div>
@@ -471,9 +471,6 @@ export default function AdminPage() {
                   : "border-white/[0.10] bg-[rgba(255,255,255,0.15)] text-[#EDEDEF]"
               }`}
             >
-              <span className="text-lg">
-                {toast.type === "success" ? "✅" : toast.type === "warning" ? "⚠️" : "❌"}
-              </span>
               {toast.message}
             </div>
           </div>
@@ -485,7 +482,7 @@ export default function AdminPage() {
             onClick={() => setShowCreateForm(true)}
             className="w-full bg-[#5E6AD2] px-6 py-3 rounded-lg font-medium text-white font-['Inter'] shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_4px_12px_rgba(94,106,210,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)] transition-all duration-300 hover:bg-[#6872D9] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_8px_40px_rgba(94,106,210,0.4),inset_0_1px_0_0_rgba(255,255,255,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] relative overflow-hidden group"
           >
-            <span className="relative z-10">✨ Thêm tác phẩm mới</span>
+            <span className="relative z-10">Thêm tác phẩm mới</span>
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
           </button>
         )}
@@ -496,7 +493,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-[#5E6AD2] flex items-center justify-center shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_4px_12px_rgba(94,106,210,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)]">
-                  <span className="text-white font-bold">✨</span>
+                  <span className="text-white font-bold"></span>
                 </div>
                 <h2 className="font-['Inter'] font-semibold text-lg bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent">Thêm tác phẩm mới</h2>
               </div>
@@ -504,7 +501,7 @@ export default function AdminPage() {
                 onClick={closeForms}
                 className="text-[#8A8F98] hover:text-[#EDEDEF] transition-colors"
               >
-                ✕
+✕
               </button>
             </div>
 
@@ -539,11 +536,10 @@ export default function AdminPage() {
                 htmlFor="fileUploadCreate"
                 className="cursor-pointer inline-block bg-white/[0.05] backdrop-blur-xl border border-white/[0.06] hover:border-white/[0.10] px-4 py-3 rounded-lg text-center transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] font-['Inter'] text-[#EDEDEF] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
               >
-                📁 Chọn ảnh tác phẩm (có thể chọn nhiều)
+Chọn ảnh tác phẩm (có thể chọn nhiều)
               </label>
 
               <p className="text-xs text-[#8A8F98] flex items-center gap-2 font-['Inter']">
-                <span>💡</span>
                 <span>Bạn có thể chọn nhiều ảnh cùng lúc để hiển thị tác phẩm tốt hơn</span>
               </p>
             </div>
@@ -578,7 +574,7 @@ export default function AdminPage() {
                 </>
               ) : (
                 <>
-                  <span className="relative z-10">✨ Tạo</span>
+                  <span className="relative z-10">Tạo</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                 </>
               )}
@@ -592,7 +588,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-[#5E6AD2] flex items-center justify-center shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_4px_12px_rgba(94,106,210,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)]">
-                  <span className="text-white font-bold">📝</span>
+                  <span className="text-white font-bold"></span>
                 </div>
                 <h2 className="font-['Inter'] font-semibold text-lg bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent">Cập nhật</h2>
               </div>
@@ -600,7 +596,7 @@ export default function AdminPage() {
                 onClick={closeForms}
                 className="text-[#8A8F98] hover:text-[#EDEDEF] transition-colors"
               >
-                ✕
+✕
               </button>
             </div>
 
@@ -675,7 +671,7 @@ export default function AdminPage() {
                   </>
                 ) : (
                   <>
-                    <span className="relative z-10">✨ Cập nhật</span>
+                    <span className="relative z-10">Cập nhật</span>
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                   </>
                 )}
@@ -694,7 +690,7 @@ export default function AdminPage() {
         <div className="space-y-6">
           <div className="flex items-center gap-3 pb-4 border-b border-white/[0.06]">
             <div className="w-8 h-8 rounded-lg bg-[#5E6AD2] flex items-center justify-center shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_4px_12px_rgba(94,106,210,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)]">
-              <span className="text-white font-bold">📦</span>
+              <span className="text-white font-bold"></span>
             </div>
             <h2 className="font-['Inter'] font-semibold text-lg bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent">Danh sách tác phẩm ({products.length})</h2>
           </div>
@@ -719,7 +715,6 @@ export default function AdminPage() {
                       </div>
                     ) : (
                       <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/[0.05] rounded-lg flex items-center justify-center text-xs border border-white/[0.06] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] flex-shrink-0">
-                        📷
                       </div>
                     )}
 
@@ -737,7 +732,7 @@ export default function AdminPage() {
                       onClick={() => openUpdateForm(p)}
                       className="bg-[#5E6AD2] px-3 py-1.5 sm:px-3 sm:py-2 rounded-lg font-medium text-white font-['Inter'] text-xs sm:text-sm shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_4px_12px_rgba(94,106,210,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)] transition-all duration-300 hover:bg-[#6872D9] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(94,106,210,0.5),0_8px_40px_rgba(94,106,210,0.4),inset_0_1px_0_0_rgba(255,255,255,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] relative overflow-hidden group flex items-center justify-center gap-1"
                     >
-                      <span className="relative z-10">📝</span>
+                      <span className="relative z-10"></span>
                       <span className="relative z-10 hidden sm:inline">Chỉnh sửa</span>
                     </button>
 
@@ -745,7 +740,7 @@ export default function AdminPage() {
                       onClick={() => deleteProduct(p.id)}
                       className="border border-white/[0.06] bg-white/[0.05] px-3 py-1.5 sm:px-3 sm:py-2 rounded-lg font-medium text-[#EDEDEF] font-['Inter'] text-xs sm:text-sm shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition-all duration-300 hover:border-white/[0.10] hover:bg-white/[0.08] hover:translate-y-[-2px] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(94,106,210,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] active:scale-[0.98] flex items-center justify-center gap-1"
                     >
-                      <span>🗑</span>
+                      <span></span>
                       <span className="hidden sm:inline">Xoá</span>
                     </button>
                   </div>

@@ -40,7 +40,7 @@ export default function ProductGallery({
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <span className="rounded-full bg-white/10 backdrop-blur-sm px-3 py-1 text-xs font-medium text-white flex items-center gap-1">
-              🔍 Zoom
+Zoom
             </span>
           </div>
         </div>
